@@ -34,6 +34,12 @@ def get_build_path():
 
     return os.path.join(os.sep, *_path.split(os.sep)[:-4])
 
+def get_log_dir_path():
+
+    return os.path.join(
+        get_build_path(), 'var', 'log'
+    )
+
 
 def parse_environmets_ini():
     """."""
