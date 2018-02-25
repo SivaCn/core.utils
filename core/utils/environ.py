@@ -19,6 +19,7 @@ from core.utils.utils import CustomConfigParser
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
+from core.constants import AMQP_CONNECTION_STRING
 # ----------- END: In-App Imports ---------- #
 
 __all__ = [
@@ -81,3 +82,14 @@ def get_queue_details():
         key: value.split(',')
         for key, value in environments_ini.section_as_dict('queue_details').items()
     }
+
+
+def get_amqp_connection_str():
+    """."""
+
+    rmq = get_rabbitmq_details()
+
+    if rmq['vhost'] == '/':
+        return AMQP_CONNECTION_STRING % rmq
+
+    return AMQP_CONNECTION_STRING % rmq + '/' + rmq['vhost']
