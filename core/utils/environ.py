@@ -73,6 +73,31 @@ def get_rabbitmq_details():
     }
 
 
+def get_main_db_details():
+    """."""
+    environments_ini = parse_environmets_ini()
+    _config = {
+        key: value
+        for key, value in environments_ini.section_as_dict('main-db').items()
+    }
+
+    _config.update({'path': os.path.join(get_build_path(), _config['name'])})
+
+    return _config
+
+
+def get_jobs_db_details():
+    """."""
+    environments_ini = parse_environmets_ini()
+    _config = {
+        key: value
+        for key, value in environments_ini.section_as_dict('jobs-db').items()
+    }
+
+    _config.update({'path': os.path.join(get_build_path(), _config['name'])})
+
+    return _config
+
 
 def get_queue_details():
     """."""
