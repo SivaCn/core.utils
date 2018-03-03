@@ -73,6 +73,36 @@ def get_rabbitmq_details():
     }
 
 
+def get_normalized_rmq_credentials():
+
+    rmq_details = get_rabbitmq_details()
+
+    return {
+        key: value
+        for key, value in rmq_details.items()
+        if key in ('username', 'password', )
+    }
+
+def get_normalized_rmq_env_details():
+
+    rmq_details = get_rabbitmq_details()
+
+    normalized_mapper = {
+        'host': 'host',
+        'port': 'port',
+        'vhost': 'virtual_host',
+    }
+
+    def normalize_key(key):
+        return normalized_mapper[key]
+
+    return {
+        normalize_key(key): value
+        for key, value in rmq_details.items()
+        if key in normalized_mapper
+    }
+
+
 def get_main_db_details():
     """."""
     environments_ini = parse_environmets_ini()
@@ -103,10 +133,20 @@ def get_queue_details():
     """."""
 
     environments_ini = parse_environmets_ini()
+
+    def adjust_durable_prop(value):
+        _queue_name, _durable = value.split(',')
+        return _queue_name.strip(), True if _durable == 'durable_true' else False
+
     return {
-        key: value.split(',')
+        key: adjust_durable_prop(value)
         for key, value in environments_ini.section_as_dict('queue_details').items()
     }
+
+def get_log_file_details():
+    """."""
+
+    return parse_environmets_ini().section_as_dict('log-files')
 
 
 def get_amqp_connection_str():
