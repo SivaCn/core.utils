@@ -81,7 +81,7 @@ def get_main_db_details():
         for key, value in environments_ini.section_as_dict('main-db').items()
     }
 
-    _config.update({'path': os.path.join(get_build_path(), _config['name'])})
+    _config.update({'path': os.path.join(get_build_path(), 'parts', _config['name'])})
 
     return _config
 
@@ -94,7 +94,7 @@ def get_jobs_db_details():
         for key, value in environments_ini.section_as_dict('jobs-db').items()
     }
 
-    _config.update({'path': os.path.join(get_build_path(), _config['name'])})
+    _config.update({'path': os.path.join(get_build_path(), 'parts', _config['name'])})
 
     return _config
 
