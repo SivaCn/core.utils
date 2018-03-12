@@ -52,6 +52,24 @@ def parse_environmets_ini():
     return CustomConfigParser(env_file_path)
 
 
+def get_user_session_details():
+    """."""
+
+    def normalize(value):
+
+        value = value.strip()
+
+        if value.isdigit():
+            value = int(value)
+
+        return value
+
+    return {
+        key: normalize(value)
+        for key, value in parse_environmets_ini().section_as_dict('user-session').items()
+    }
+
+
 def get_rabbitmq_details():
     """."""
 
