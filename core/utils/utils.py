@@ -55,3 +55,11 @@ class Singleton(type):
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
 
         return cls._instances[cls]
+
+
+def get_ordinal(num):
+    num = int(num)
+    return "{}{}".format(
+        num,
+        "th" if 4<=num%100<=20 else {1:"st", 2:"nd", 3:"rd"}.get(num%10, "th")
+    )
