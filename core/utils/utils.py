@@ -58,6 +58,13 @@ class Singleton(type):
 
 
 def get_ordinal(num):
+
+    if not num:
+        return num
+
+    if isinstance(num, str) and not num.isdigit():
+        return num
+
     num = int(num)
     return "{}{}".format(
         num,
