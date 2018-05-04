@@ -70,6 +70,38 @@ def get_user_session_details():
     }
 
 
+def get_general_configs():
+    """."""
+
+    def digit_between_4_6(key, data):
+        if not data.isdigit():
+            raise Exception("The value for {} should be of type int".format(key))
+
+        number = int(data)
+        if number <= 4:
+            return 4
+        if number >= 6:
+            return 6
+        return number
+
+    def normalize(key, value):
+        _trans = {
+            #         (requested as, default map)
+            'otp_code_digits': digit_between_4_6,
+        }
+
+        if key in _trans:
+            if getattr(_trans[key], __call__, None):
+               return _trans[key](key, value)
+        return value
+
+    environments_ini = parse_environmets_ini()
+    return {
+        key: normalize(key, value)
+        for key, value in environments_ini.section_as_dict('general').items()
+    }
+
+
 def get_rabbitmq_details():
     """."""
 
