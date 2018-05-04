@@ -91,7 +91,7 @@ def get_general_configs():
         }
 
         if key in _trans:
-            if getattr(_trans[key], __call__, None):
+            if getattr(_trans[key], '__call__', None):
                return _trans[key](key, value)
         return value
 
