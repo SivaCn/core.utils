@@ -141,6 +141,7 @@ def get_normalized_rmq_env_details():
         'host': 'host',
         'port': 'port',
         'vhost': 'virtual_host',
+        'exchange': 'exchange',
     }
 
     def normalize_key(key):
