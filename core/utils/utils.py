@@ -12,6 +12,7 @@
 
 # ----------- START: Native Imports ---------- #
 import os
+import random
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
@@ -69,4 +70,17 @@ def get_ordinal(num):
     return "{}{}".format(
         num,
         "th" if 4<=num%100<=20 else {1:"st", 2:"nd", 3:"rd"}.get(num%10, "th")
+    )
+
+
+def generate_otp():
+
+    from core.utils.environ import get_general_configs
+
+    return int(
+        ''.join(
+            [str(random.randint(1, 9))
+             for _ in range(get_general_configs()['otp_code_digits'])
+             ]
+        )
     )
