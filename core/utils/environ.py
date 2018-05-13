@@ -27,6 +27,22 @@ __all__ = [
 ]
 
 
+def config_normalize(value):
+
+    value = value.strip()
+
+    if value.isdigit():
+        value = int(value)
+
+    elif value.strip().lower() in ('true', 'false', ):
+        value = value.strip().lower()
+        value = {
+            'true': True, 'false': False
+        }[value]
+
+    return value
+
+
 def get_build_path():
     """."""
 
@@ -55,18 +71,18 @@ def parse_environmets_ini():
 def get_user_session_details():
     """."""
 
-    def normalize(value):
+    return {
+        key: config_normalize(value)
+        for key, value in parse_environmets_ini().section_as_dict('user-session').items()
+    }
 
-        value = value.strip()
 
-        if value.isdigit():
-            value = int(value)
-
-        return value
+def get_scheduler_config_details():
+    """."""
 
     return {
-        key: normalize(value)
-        for key, value in parse_environmets_ini().section_as_dict('user-session').items()
+        key: config_normalize(value)
+        for key, value in parse_environmets_ini().section_as_dict('scheduler').items()
     }
 
 
