@@ -52,6 +52,16 @@ class StateConstants(object):
 const_states = frozen(StateConstants())
 
 
+class DatabaseConstants(object):
+    #
+    #
+    MIGRATION_DB_URL_DIALECT = 'postgresql+psycopg2'
+    READ_WRITE_DB_URL_DIALECT = 'postgresql+asyncpg'
+
+
+const_db = frozen(DatabaseConstants())
+
+
 class DateConstants(object):
     #
     # Date and Time Related
