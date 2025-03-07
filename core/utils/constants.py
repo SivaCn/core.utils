@@ -49,6 +49,9 @@ class StateConstants(object):
     UNKNOWN = 'UNKNOWN'            # The state of the task cannot be determined.
 
 
+const_states = frozen(StateConstants())
+
+
 class DateConstants(object):
     #
     # Date and Time Related
@@ -59,6 +62,5 @@ class DateConstants(object):
     ISO_DATETIME_FORMAT_TZ = f'{DATE_FORMAT}T{TIME_FORMAT}Z'
 
 
-const_states = frozen(StateConstants())
 const_dates = frozen(DateConstants())
 
