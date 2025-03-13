@@ -132,8 +132,10 @@ def get_build_config(section: str | None=None) -> dict:
     def get_database_config(section):
 
         database_name = _V_BUILD_CONFIG_CACHE[section]['database']
+        verbose = _V_BUILD_CONFIG_CACHE[section]['verbose']
         return {
             'database': database_name,
+            'verbose': verbose,
             'master': _V_BUILD_CONFIG_CACHE['db-master'],
             'replica': _V_BUILD_CONFIG_CACHE['db-replica'],
         }
