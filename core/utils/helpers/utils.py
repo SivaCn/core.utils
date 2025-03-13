@@ -296,6 +296,12 @@ def json_deserialize(value: str) -> dict | list:
     return json.loads(value)
 
 
+def json_safe(value: list | str, sort_keys: bool=False):
+    """An utility to make the date JSON safe."""
+
+    return json_deserialize(json_serialize(value, sort_keys=sort_keys))
+
+
 def update_nested_dict(original: dict, updates: dict) -> dict:
     """Update a deeply nested dictionary with another one.
 
