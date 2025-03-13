@@ -13,6 +13,7 @@
 
 # ----------- START: Native Imports ---------- #
 import os
+import sys
 
 from pathlib import Path
 from copy import deepcopy
@@ -33,6 +34,27 @@ from core.utils.helpers.utils import (
 __all__ = [
     # All public symbols go here.
 ]
+
+
+class ConsoleScript:
+
+    def __init__(self, func):
+        self.func = func
+
+    def validate_env(self):
+
+        if not os.environ.get('BUILD_HOME'):
+            print('\nERROR: Unable to locate the Environment Variables')
+            sys.exit()
+
+        if not os.environ.get('INSTANCE_NAME'):
+            print('\nERROR: Unable to locate the Environment Variables')
+            sys.exit()
+
+    def __call__(self, *args, **kwargs):
+
+        self.validate_env()
+        return self.func(*args, **kwargs)
 
 
 def get_build_path() -> str:
@@ -86,7 +108,7 @@ def load_build_config():
     return data
 
 
-_V_BUILD_CONFIG_CACHE = load_build_config()
+_V_BUILD_CONFIG_CACHE = dict()
 """Local Cache to hold all the build configurations."""
 
 
@@ -115,6 +137,13 @@ def get_build_config(section: str | None=None) -> dict:
             'master': _V_BUILD_CONFIG_CACHE['db-master'],
             'replica': _V_BUILD_CONFIG_CACHE['db-replica'],
         }
+
+    global _V_BUILD_CONFIG_CACHE
+
+    if not _V_BUILD_CONFIG_CACHE:
+        #
+        # Populate the build config cache
+        _V_BUILD_CONFIG_CACHE = load_build_config()
 
     build_config_data = deepcopy(_V_BUILD_CONFIG_CACHE)
     for each_section in _V_BUILD_CONFIG_CACHE:
