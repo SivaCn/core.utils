@@ -26,6 +26,8 @@ from core.utils.helpers.utils import (
     DotDict,
     json_safe,
 )
+
+from core.utls.constants import const_auth
 # ----------- END: In-App Imports ---------- #
 
 __all__ = [
@@ -35,10 +37,6 @@ __all__ = [
 
 class JWT:
 
-    KEY = 'E15CD921A6014605B60F35DB53E1A998'
-    ALGORITHM = "HS256"
-    EXPIRE_AFTER_MINUTES = 30
-
     def create_access_token(self, custom_claims: dict) -> str:
 
         # Standard claims
@@ -46,7 +44,11 @@ class JWT:
             # "sub": "App Access",
             # "iss": "Get Yellow",
             # "aud": "End User",
-            "exp": int((datetime.now(UTC) + timedelta(minutes=self.EXPIRE_AFTER_MINUTES)).timestamp()),
+            "exp": int(
+                (
+                    datetime.now(UTC) + timedelta(minutes=const_auth.JWT_TOKEN_EXPIRE_AFTER_MINUTES)
+                 ).timestamp()
+            ),
             "iat": int(datetime.now(UTC).timestamp()),
             "nbf": int(datetime.now(UTC).timestamp()),
             #
@@ -54,13 +56,12 @@ class JWT:
             **custom_claims,
         }
 
-        return jwt.encode(json_safe(payload), self.KEY, algorithm=self.ALGORITHM)
+        return jwt.encode(json_safe(payload), const_auth.JWT_SECRECT_KEY, algorithm=const_auth.JWT_ALGORITHM)
 
     def decode_token(self, token: str) -> DotDict:
 
-        payload = jwt.decode(token, self.KEY, algorithms=[self.ALGORITHM])
         try:
-            payload = jwt.decode(token, self.KEY, algorithms=[self.ALGORITHM])
+            payload = jwt.decode(token, const_auth.JWT_SECRECT_KEY, algorithms=[const_auth.JWT_ALGORITHM])
 
             if not payload.get("unique_id"):
                 raise HTTPException(status_code=401, detail="Invalid token")
