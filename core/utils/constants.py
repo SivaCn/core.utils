@@ -74,3 +74,14 @@ class DateConstants(object):
 
 const_dates = frozen(DateConstants())
 
+
+class AuthorizationConstants(object):
+    #
+    # Authorization Related
+    JWT_SECRECT_KEY = 'E15CD921A6014605B60F35DB53E1A998'
+    JWT_ALGORITHM = "HS256"
+    JWT_TOKEN_EXPIRE_AFTER_MINUTES = 30
+
+
+const_auth = frozen(AuthorizationConstants())
+
