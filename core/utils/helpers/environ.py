@@ -20,6 +20,7 @@ from copy import deepcopy
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
+from dotenv import load_dotenv
 from configparser import ConfigParser
 # ----------- END: Third Party Imports ---------- #
 
@@ -36,6 +37,22 @@ __all__ = [
 ]
 
 
+def load_build_dotenv():
+    """."""
+
+    cwd = os.getcwd()
+
+    env_file_path = os.path.join(cwd, '.env')
+
+    if not os.path.exists(env_file_path):
+        raise FileNotFoundError(f"Unable to find the environment file under '{cwd}' Directory")
+
+    load_dotenv(env_file_path)
+
+
+load_build_dotenv()
+
+
 class ConsoleScript:
 
     def __init__(self, func):
@@ -43,11 +60,11 @@ class ConsoleScript:
 
     def validate_env(self):
 
-        if not os.environ.get('BUILD_HOME'):
+        if not os.getenv('BUILD_HOME'):
             print('\nERROR: Unable to locate the Environment Variables')
             sys.exit()
 
-        if not os.environ.get('INSTANCE_NAME'):
+        if not os.getenv('INSTANCE_NAME'):
             print('\nERROR: Unable to locate the Environment Variables')
             sys.exit()
 
@@ -60,7 +77,7 @@ class ConsoleScript:
 def get_build_path() -> str:
     """A utility method to get the build path.
     """
-    return os.environ['BUILD_HOME']
+    return os.getenv('BUILD_HOME')
 
 
 def get_build_name() -> str:
