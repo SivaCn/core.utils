@@ -126,11 +126,15 @@ const_dates = frozen(DateConstants())
 
 
 class AuthorizationConstants(object):
+
     #
     # Authorization Related
     JWT_SECRECT_KEY = os.getenv('JWT_SECRET_KEY')
     JWT_ALGORITHM = os.getenv('JWT_ALGORITHM')
-    JWT_TOKEN_EXPIRE_AFTER_MINUTES = int(os.getenv('JWT_TOKEN_EXPIRE_AFTER_MINUTES'))
+    JWT_TOKEN_EXPIRE_AFTER_MINUTES = int(os.getenv('JWT_TOKEN_EXPIRE_AFTER_MINUTES') or 30)
+
+    if not JWT_SECRECT_KEY or not JWT_ALGORITHM or not JWT_TOKEN_EXPIRE_AFTER_MINUTES:
+        raise Exception("CRITICAL: Unable to read JWT related details")
 
 
 const_auth = frozen(AuthorizationConstants())
