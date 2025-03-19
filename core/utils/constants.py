@@ -11,6 +11,7 @@
 """
 
 # ----------- START: Native Imports ---------- #
+import os
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
@@ -25,6 +26,55 @@ __all__ = [
     'const_dates',
     'const_states',
 ]
+
+
+class HTTPStatusCodes(object):
+    #
+    # HTTP Status codes
+
+    #
+    # Success 2XX
+    HTTP_200 = 200  # Ok
+    HTTP_201 = 201  # Created
+    HTTP_202 = 202  # Accepted
+    HTTP_204 = 204  # No Content
+    HTTP_206 = 206  # Partial Content
+
+    #
+    # 3XX Redirection
+    HTTP_300 = 300  # Multiple Choices
+    HTTP_301 = 301  # Moved Permanently
+    HTTP_302 = 302  # Found
+    HTTP_303 = 303  # See Other
+    HTTP_304 = 304  # Not Modified
+    HTTP_307 = 307  # Temporary Redirect
+    HTTP_308 = 308  # Permanent Redirect
+
+    #
+    # 4XX Client Errors
+    HTTP_400 = 400  # Bad Request
+    HTTP_401 = 401  # Unauthorized
+    HTTP_403 = 403  # Forbidden
+    HTTP_404 = 404  # Not Found
+    HTTP_405 = 405  # Method Not Allowed
+    HTTP_406 = 406  # Not Acceptable
+    HTTP_408 = 408  # Request Timeout
+    HTTP_409 = 409  # Conflict
+    HTTP_410 = 410  # Gone
+    HTTP_415 = 415  # Unsupported Media Type
+    HTTP_422 = 422  # Unprocessable Entity
+    HTTP_429 = 429  # Too Many Requests
+
+    #
+    # 5XX Server Errors
+    HTTP_500 = 500  # Internal Server Error
+    HTTP_501 = 501  # Not Implemented
+    HTTP_502 = 502  # Bad Gateway
+    HTTP_503 = 503  # Service Unavailable
+    HTTP_504 = 504  # Gateway Timeout
+    HTTP_505 = 505  # HTTP Version Not Supported
+
+http_status = frozen(HTTPStatusCodes())
 
 
 class StateConstants(object):
@@ -78,10 +128,44 @@ const_dates = frozen(DateConstants())
 class AuthorizationConstants(object):
     #
     # Authorization Related
-    JWT_SECRECT_KEY = 'E15CD921A6014605B60F35DB53E1A998'
-    JWT_ALGORITHM = "HS256"
-    JWT_TOKEN_EXPIRE_AFTER_MINUTES = 30
+    JWT_SECRECT_KEY = os.getenv('JWT_SECRET_KEY')
+    JWT_ALGORITHM = os.getenv('JWT_ALGORITHM')
+    JWT_TOKEN_EXPIRE_AFTER_MINUTES = int(os.getenv('JWT_TOKEN_EXPIRE_AFTER_MINUTES'))
 
 
 const_auth = frozen(AuthorizationConstants())
+
+
+class RegexConstants(object):
+    #
+    # All regex patterns
+    MOBILE_NUMBER = r"(?P<country_code>\+\d{1,3})[\-](?P<number>\d{7,15})"
+    '''Supports:
+            +91-9876543210      # India
+            +1-4155552671       # USA
+            +81-9012345678      # Japan
+            etc.,
+    '''
+
+    STRICT_6_DIGITS = r"^\d{6}$"
+
+    USER_NAME = r"^[A-Za-z]+([ '-][A-Za-z]+)*$"
+    '''Valid names are: John Doe, Mary-Jane, O'Connor, Anne Marie, Jean-Luc'''
+
+
+const_regex = frozen(RegexConstants())
+
+
+class BusinessConstants(object):
+    #
+    # All Business Related
+    EMAIL = 'EMAIL'
+    PHONE = 'PHONE'
+
+    MALE = 'MALE'
+    FEMALE = 'FEMALE'
+    OTHER = 'OTHER'
+
+
+const_business = frozen(BusinessConstants())
 

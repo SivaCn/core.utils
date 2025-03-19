@@ -1,0 +1,95 @@
+# -*- coding: utf-8 -*-
+
+"""
+
+    Module :mod:``
+
+    This Module is created to...
+
+    LICENSE: The End User license agreement is located at the entry
+    level.
+
+"""
+
+# ----------- START: Native Imports ---------- #
+import re
+
+from uuid import UUID
+from datetime import datetime
+# ----------- END: Native Imports ---------- #
+
+# ----------- START: Third Party Imports ---------- #
+from email_validator import validate_email, EmailNotValidError
+# ----------- END: Third Party Imports ---------- #
+
+# ----------- START: In-App Imports ---------- #
+from core.utils.constants import const_regex
+# ----------- END: In-App Imports ---------- #
+
+
+__all__ = [
+    # All public symbols go here.
+]
+
+
+def is_valid_email(email):
+    """Validates and normailzed a given Email-Id."""
+
+    try:
+        validate_email(email)  # Validate and normalize
+        return True
+
+    except EmailNotValidError:
+        return False
+
+
+def is_valid_mobile_number(mobile_number: str) -> bool:
+    """Validates a mobile numer."""
+
+    pattern = re.compile(const_regex.MOBILE_NUMBER)
+
+    return bool(pattern.fullmatch(mobile_number))
+
+
+def is_valid_otp(otp: str) -> bool:
+    """Validates a given OTP number."""
+
+    pattern = re.compile(const_regex.STRICT_6_DIGITS)
+
+    return bool(pattern.fullmatch(otp))
+
+
+def is_valid_uuid4(uuid_str):
+    """validates a given uuid4 string."""
+
+    try:
+        val = UUID(uuid_str, version=4)
+        return str(val) == uuid_str  # Ensure it's properly formatted
+
+    except ValueError:
+        return False
+
+
+def is_valid_user_slug(user_slug: str) -> bool:
+    """Validates a given user slug."""
+
+    return is_valid_uuid4(user_slug)
+
+
+def is_valid_user_name(name: str) -> bool:
+    """Validates a given user Name."""
+
+    pattern = re.compile(const_regex.USER_NAME)
+
+    return bool(pattern.fullmatch(name))
+
+
+def is_valid_iso_date(date_str):
+    """Validates a given ISO date."""
+
+    try:
+        datetime.fromisoformat(date_str)  # Validates ISO 8601 format (YYYY-MM-DD)
+        return True
+
+    except ValueError:
+        return False
