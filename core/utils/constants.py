@@ -133,9 +133,6 @@ class AuthorizationConstants(object):
     JWT_ALGORITHM = os.getenv('JWT_ALGORITHM')
     JWT_TOKEN_EXPIRE_AFTER_MINUTES = int(os.getenv('JWT_TOKEN_EXPIRE_AFTER_MINUTES') or 30)
 
-    if not JWT_SECRECT_KEY or not JWT_ALGORITHM or not JWT_TOKEN_EXPIRE_AFTER_MINUTES:
-        raise Exception("CRITICAL: Unable to read JWT related details")
-
 
 const_auth = frozen(AuthorizationConstants())
 
@@ -169,6 +166,22 @@ class BusinessConstants(object):
     MALE = 'MALE'
     FEMALE = 'FEMALE'
     OTHER = 'OTHER'
+
+    #
+    # Will Progress Stages
+    NOT_INITIATED = 'NOT-INITIATED'
+    MY_PEOPLE = 'MY-PEOPLE'
+    MY_ASSETS = 'MY-ASSETS'
+    ASSET_DISTRIBUTION = 'ASSET-DISTRIBUTION'
+    COMPLETED = 'COMPLETED'
+
+    WILL_PROGRESS_ORDER = [
+        NOT_INITIATED,
+        MY_PEOPLE,
+        MY_ASSETS,
+        ASSET_DISTRIBUTION,
+        COMPLETED,
+    ]
 
 
 const_business = frozen(BusinessConstants())

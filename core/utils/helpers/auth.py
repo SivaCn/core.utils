@@ -44,6 +44,10 @@ class TokenData:
 
 class JWT:
 
+    def __init__(self):
+        if not const_auth.JWT_SECRECT_KEY or not const_auth.JWT_ALGORITHM:
+            raise Exception("CRITICAL: Unable to read JWT related details")
+
     def create_access_token(self, custom_claims: dict) -> str:
 
         # Standard claims
@@ -63,12 +67,20 @@ class JWT:
             **custom_claims,
         }
 
-        return jwt.encode(json_safe(payload), const_auth.JWT_SECRECT_KEY, algorithm=const_auth.JWT_ALGORITHM)
+        return jwt.encode(
+            json_safe(payload),
+            const_auth.JWT_SECRECT_KEY,
+            algorithm=const_auth.JWT_ALGORITHM
+        )
 
     def decode_token(self, token: str) -> TokenData:
 
         try:
-            payload = jwt.decode(token, const_auth.JWT_SECRECT_KEY, algorithms=[const_auth.JWT_ALGORITHM])
+            payload = jwt.decode(
+                token,
+                const_auth.JWT_SECRECT_KEY,
+                algorithms=[const_auth.JWT_ALGORITHM]
+            )
 
             if not payload.get('user_slug'):
                 raise HTTPException(status_code=401, detail="Invalid token, required details are missing")
