@@ -183,6 +183,58 @@ class BusinessConstants(object):
         COMPLETED,
     ]
 
+    #
+    # Dropdown Enums
+    RELIGION = 'RELIGION'
+    RELATIONSHIP = 'RELATIONSHIP'
+    ID_PROOF = 'ID_PROOF'
+
+    #
+    # Dropdown Options
+    RELIGION_OPTIONS = [
+        'HINDU',
+        'CHRISTIAN',
+        'MUSLIM',
+        'SIKH',
+        'PARSI',
+        'JAIN',
+        'OTHER',
+    ]
+
+    #
+    # Relationships
+    CHILD = 'CHILD'
+    PARENT = 'PARENT'
+    SPOUSE = 'SPOUSE'
+    SIBLING = 'SIBLING'
+    FRIEND = 'FRIEND'
+    RELATIVE = 'RELATIVE'
+    OTHER = 'OTHER'
+
+    RELATIONSHIP_OPTIONS = [
+        CHILD,
+        PARENT,
+        SPOUSE,
+        SIBLING,
+        FRIEND,
+        RELATIVE,
+        OTHER,
+    ]
+
+    #
+    # ID Proofs
+    PAN = 'PAN'
+    PASSPORT = 'PASSPORT'
+    DRIVING_LICENSE = 'DRIVING-LICENCE'
+    VOTER_ID = 'VOTER-ID'
+
+    ID_PROOF_OPTIONS = [
+        PAN,
+        PASSPORT,
+        VOTER_ID,
+        DRIVING_LICENSE
+    ]
+
 
 const_business = frozen(BusinessConstants())
 
