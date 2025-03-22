@@ -166,7 +166,7 @@ class BusinessConstants(object):
     MONTH = 'MONTH'
 
     #
-    # User and Roles
+    # User Roles
     USER = 'USER'
     ADMIN = 'ADMIN'
 
