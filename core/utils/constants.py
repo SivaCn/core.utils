@@ -160,6 +160,16 @@ const_regex = frozen(RegexConstants())
 class BusinessConstants(object):
     #
     # All Business Related
+
+    #
+    # Duration Periods
+    MONTH = 'MONTH'
+
+    #
+    # User and Roles
+    USER = 'USER'
+    ADMIN = 'ADMIN'
+
     EMAIL = 'EMAIL'
     PHONE = 'PHONE'
 
