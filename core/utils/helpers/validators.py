@@ -93,3 +93,11 @@ def is_valid_iso_date(date_str):
 
     except ValueError:
         return False
+
+
+def is_valid_plan_name(name: str) -> bool:
+    """Validates a given Plan Name."""
+
+    pattern = re.compile(const_regex.UPPER_CASE_LETTERS_WITH_HYPENS)
+    return bool(re.fullmatch(pattern, name))
+
