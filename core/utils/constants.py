@@ -171,8 +171,10 @@ class BusinessConstants(object):
 
     #
     # User Roles
+    ADMIN_SUPER = 'ADMIN:SUPER'
+    ADMIN_CONTENT = 'ADMIN:CONTENT'
+    ADMIN_SUPPORT = 'ADMIN:SUPPORT'
     USER = 'USER'
-    ADMIN = 'ADMIN'
 
     EMAIL = 'EMAIL'
     PHONE = 'PHONE'
