@@ -153,8 +153,8 @@ class RegexConstants(object):
     USER_NAME = r"^[A-Za-z]+([ '-][A-Za-z]+)*$"
     '''Valid names are: John Doe, Mary-Jane, O'Connor, Anne Marie, Jean-Luc'''
 
-    UPPER_CASE_LETTERS_WITH_HYPENS = r'^[A-Z]+(-[A-Z]+)*$'
-    '''Ensures Upper case letters with hyphens are only between uppercase letters
+    UPPER_CASE_LETTERS_N_NUMBERS_N_HYPENS = r'^[A-Z0-9]+(?:-[A-Z0-9]+)*$'
+    '''uppercase letters, numbers, and hyphens, where hyphens are not allowed at the start or end
     '''
 
 
