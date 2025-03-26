@@ -59,12 +59,12 @@ class ConsoleScript:
 
     def validate_env(self):
 
-        if not os.getenv('BUILD_HOME'):
-            print('\nERROR: Unable to locate the Environment Variables')
+        if not os.environ.get('BUILD_HOME'):
+            print('\nERROR: Unable to find Build Home')
             sys.exit()
 
-        if not os.getenv('INSTANCE_NAME'):
-            print('\nERROR: Unable to locate the Environment Variables')
+        if not os.environ.get('INSTANCE_NAME'):
+            print('\nERROR: Unable to find Instance Name')
             sys.exit()
 
     def __call__(self, *args, **kwargs):
@@ -76,7 +76,7 @@ class ConsoleScript:
 def get_build_path() -> str:
     """A utility method to get the build path.
     """
-    return os.getenv('BUILD_HOME')
+    return os.environ.get('BUILD_HOME')
 
 
 def get_build_name() -> str:
