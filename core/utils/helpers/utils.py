@@ -12,6 +12,10 @@
 """
 
 # ----------- START: Native Imports ---------- #
+import pickle
+
+from typing import Optional
+from string import Template
 from decimal import Decimal
 from uuid import UUID, uuid4
 from datetime import UTC, datetime, timedelta, date
@@ -20,6 +24,7 @@ from types import SimpleNamespace
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
+import yaml
 import simplejson as json
 # ----------- END: Third Party Imports ---------- #
 
@@ -40,6 +45,45 @@ from core.utils.helpers.date import (
 __all__ = [
     # All public symbols go here.
 ]
+
+
+def read_yaml(yaml_file: str) -> str:
+    """Reads a given yaml file and returns python dictionary."""
+
+    data = None
+
+    with open(yaml_file, 'r') as stream:
+        try:
+            data = yaml.safe_load(stream)
+
+        except yaml.YAMLError:
+            raise Exception(f"Unable to read the supplied yaml file '{yaml_file}'")
+
+    return data
+
+
+def string_substitute(text: str, substitutes: dict) -> str:
+    return Template(text).safe_substitute(substitutes)
+
+
+def pickle_file_serialize(file_path: str, data: dict) -> None:
+
+    with open(file_path, 'wb') as fd:
+        #
+        # Pickle the 'data' dictionary using the highest protocol available.
+        pickle.dump(data, fd, pickle.HIGHEST_PROTOCOL)
+
+
+def pickle_file_deserialize(file_path: str) -> dict:
+
+    data = None
+
+    with open(file_path, 'rb') as fd:
+        # The protocol version used is detected automatically, so we do not
+        # have to specify it.
+        data = pickle.load(fd)
+
+    return data
 
 
 def py_datatype_from_str(value: str):
@@ -189,6 +233,16 @@ def get_unique_id(prefix: str='') -> str:
     """
 
     return f"{prefix + ':' if prefix else ''}{uuid4().__str__()}"
+
+
+def sliced_uuid(uuid_str: Optional[str]=None, index: int=0) -> str:
+    """."""
+    if not uuid_str:
+        uuid_str = str(uuid4())
+
+    index = index or 0
+
+    return uuid_str.split('-')[index]
 
 
 def json_custom_serializer(value):

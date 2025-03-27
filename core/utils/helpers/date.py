@@ -54,18 +54,13 @@ def seconds_to_hms(seconds, elongate=False):
     return time_data
 
 
-def is_valid_unix_timestamp(unix_timestamp):
+def is_valid_unix_timestamp(unix_timestamp: int) -> bool:
     """Validates and returns boolean result for a given unix timestamp."""
-
-    # Check if the timestamp is an integer
-    if not isinstance(unix_timestamp, int):
-        return False
-
     # Check the range for 32-bit Unix timestamps
     return 0 <= unix_timestamp <= 2147483647
 
 
-def datetime_from_unix_timestamp(unix_timestamp):
+def datetime_from_unix_timestamp(unix_timestamp: int) -> datetime:
     """Computes python datetime from unix timestamp."""
 
     if not is_valid_unix_timestamp(unix_timestamp):

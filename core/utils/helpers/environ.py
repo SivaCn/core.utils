@@ -25,6 +25,10 @@ from configparser import ConfigParser
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
+from core.utils.constants import (
+    const_general,
+)
+
 from core.utils.helpers.utils import (
     DotDict,
     py_datatype_from_str,
@@ -59,11 +63,11 @@ class ConsoleScript:
 
     def validate_env(self):
 
-        if not os.environ.get('BUILD_HOME'):
+        if not os.environ['BUILD_HOME']:
             print('\nERROR: Unable to find Build Home')
             sys.exit()
 
-        if not os.environ.get('INSTANCE_NAME'):
+        if not os.environ['INSTANCE_NAME']:
             print('\nERROR: Unable to find Instance Name')
             sys.exit()
 
@@ -76,7 +80,7 @@ class ConsoleScript:
 def get_build_path() -> str:
     """A utility method to get the build path.
     """
-    return os.environ.get('BUILD_HOME')
+    return os.environ['BUILD_HOME']
 
 
 def get_build_name() -> str:
@@ -174,3 +178,46 @@ def get_build_config(section: str | None=None) -> dict:
 
     return DotDict(build_config_data)
 
+
+def get_amqp_connection_str() -> str:
+    """."""
+
+    rmq = get_build_config(section='rabbitmq')
+
+    return const_general.AMQP_CONNECTION_STRING % rmq.as_dict()
+
+
+def get_celery_result_backend():
+
+    """Compute the celery result backend."""
+
+    consumer_config = get_build_config(section='consumer-config')
+
+    result_backend = 'rpc://'
+
+    celery_result_backend = consumer_config.celery_result_backend.strip()
+
+    if celery_result_backend == 'rpc':
+        #
+        # if rpc is chosen or any invalid option is given fallback to rpc
+        result_backend = 'rpc://'
+
+    elif celery_result_backend == 'redis':
+        #
+        # Complpute the result backend for redis
+        redis = get_build_config(section='redis')
+
+        template = const_general.REDIS_URL_WITHOUT_CREDENTIALS
+        if redis.username and redis.password:
+            #
+            # use credentials if configured
+            template = const_general.REDIS_URL_WITH_CREDENTIALS
+
+        result_backend = template % redis.as_dict()
+
+    else:
+        #
+        # Anythinf apart from rpc ot redis, falling back to rpc
+        result_backend = 'rpc://'
+
+    return result_backend

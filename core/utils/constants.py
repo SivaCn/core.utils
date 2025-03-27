@@ -28,6 +28,19 @@ __all__ = [
 ]
 
 
+class GeneralConstants(object):
+    #
+    # All General Constants
+    LINE_BREAK = r'\n'
+
+    AMQP_CONNECTION_STRING = 'pyamqp://%(username)s:%(password)s@%(host)s:%(port)s/%(virtual_host)s'
+    REDIS_URL_WITHOUT_CREDENTIALS = 'redis://%(host)s:%(port)s/%(db_number)s'
+    REDIS_URL_WITH_CREDENTIALS = 'redis://%(username)s:%(password)s@%(host)s:%(port)s/%(db_number)s'
+
+
+const_general = frozen(GeneralConstants())
+
+
 class HTTPStatusCodes(object):
     #
     # HTTP Status codes
@@ -253,4 +266,13 @@ class BusinessConstants(object):
 
 
 const_business = frozen(BusinessConstants())
+
+
+class LoggingConstants(object):
+    #
+    # Logging Related
+    LOG_FORMAT = '[%(asctime)s] %(levelname)-10s - %(message)s'
+
+
+const_logging = frozen(LoggingConstants())
 
