@@ -55,7 +55,7 @@ __all__ = [
 
 
 # Create a defaultdict that returns logging.ERROR for missing keys
-log_levels = defaultdict(
+log_levels_map = defaultdict(
     lambda: ERROR,
     {
         'info': INFO,
@@ -81,7 +81,8 @@ def create_logger(
         file_name: Optional[str] = None,
         set_handlers: List[str] = ['file', 'stream'],
         max_file_size: int = 5,
-        file_backup_count: int = 10
+        file_backup_count: int = 10,
+        log_level: Optional[int] = None
     ):
 
     if not file_name:
@@ -98,7 +99,7 @@ def create_logger(
 
     _logger = getLogger(logger_name)
     _logger.setLevel(
-        log_levels[logger_config.loglevel]
+        log_level or log_levels_map[logger_config.loglevel]
     )
 
     formatter = Formatter(fmt=const_logging.LOG_FORMAT, datefmt=const_dates.ISO_DATETIME_FORMAT)
@@ -130,5 +131,5 @@ def create_logger(
     return _logger
 
 
-consumer_script_logger = create_logger(logger_name='consumer-script')
+consumer_script_logger = create_logger(logger_name='consumer-script', log_level=INFO)
 
