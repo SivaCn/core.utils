@@ -142,6 +142,7 @@ class AuthorizationConstants(object):
 
     #
     # Authorization Related
+    JWT_TOKEN_TYPE = 'Bearer'
     JWT_SECRECT_KEY = os.getenv('JWT_SECRET_KEY')
     JWT_ALGORITHM = os.getenv('JWT_ALGORITHM')
     JWT_TOKEN_EXPIRE_AFTER_MINUTES = int(os.getenv('JWT_TOKEN_EXPIRE_AFTER_MINUTES') or 30)
