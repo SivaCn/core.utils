@@ -67,8 +67,8 @@ class ConsoleScript:
             print('\nERROR: Unable to find Build Home')
             sys.exit()
 
-        if not os.environ['INSTANCE_NAME']:
-            print('\nERROR: Unable to find Instance Name')
+        if not os.environ['INSTANCE_TYPE']:
+            print('\nERROR: Unable to find Instance Type')
             sys.exit()
 
     def __call__(self, *args, **kwargs):
