@@ -118,6 +118,7 @@ const_states = frozen(StateConstants())
 class DatabaseConstants(object):
     #
     #
+    DATABASE_URL = '{dialect}://{username}:{password}@{host}:{port}/{db_name}'
     MIGRATION_DB_URL_DIALECT = 'postgresql+psycopg2'
     READ_WRITE_DB_URL_DIALECT = 'postgresql+asyncpg'
 
