@@ -17,7 +17,7 @@
 # ----------- START: Third Party Imports ---------- #
 import pendulum
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
@@ -28,6 +28,35 @@ from core.utils.constants import const_dates
 __all__ = [
     # All public symbols go here.
 ]
+
+
+def iso_datetime(datetime_obj: datetime) -> str:
+    """Returns ISO-8601 format."""
+    return datetime_obj.isoformat()
+
+
+def utc_now() -> datetime:
+    """Get current UTC datetime.
+
+    Usage:
+        >>> utc_now()
+        datetime.datetime(2025, 4, 1, 10, 12, 27, tzinfo=datetime.timezone.utc)
+        >>> utc_now().isoformat()
+        '2025-04-01T10:12:47+00:00'
+    """
+
+    return datetime.now(timezone.utc).replace(microsecond=0).replace(tzinfo=None)
+
+
+def datetime_add_offset(datetime_obj: datetime, days: int=0) -> datetime:
+    """Adds offset to the given datetime object."""
+
+    adjusted_datetime = datetime_obj
+
+    if days != 0:
+        adjusted_datetime = datetime_obj + timedelta(days=days)
+
+    return adjusted_datetime
 
 
 def seconds_to_hms(seconds, elongate=False):

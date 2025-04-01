@@ -186,13 +186,19 @@ class BusinessConstants(object):
 
     #
     # User Roles
-    ADMIN_SUPER = 'ADMIN:SUPER'
-    ADMIN_CONTENT = 'ADMIN:CONTENT'
-    ADMIN_SUPPORT = 'ADMIN:SUPPORT'
+    ADMIN_SUPER = 'ADMIN-SUPER'
+    ADMIN_CONTENT = 'ADMIN-CONTENT'
+    ADMIN_SUPPORT = 'ADMIN-SUPPORT'
     USER = 'USER'
 
     EMAIL = 'EMAIL'
     PHONE = 'PHONE'
+
+    INVITED = 'INVITED'
+    RE_INVITED = 'RE-INVITED'
+    ACCEPTED = 'ACCEPTED'
+    EXPIRED = 'EXPIRED'
+    REVOKED = 'REVOKED'
 
     MALE = 'MALE'
     FEMALE = 'FEMALE'
@@ -219,6 +225,7 @@ class BusinessConstants(object):
     RELIGION = 'RELIGION'
     RELATIONSHIP = 'RELATIONSHIP'
     ID_PROOF = 'ID_PROOF'
+    INVITE_ROLES = 'INVITE_ROLES'
 
     #
     # Dropdown Options
@@ -265,6 +272,11 @@ class BusinessConstants(object):
         VOTER_ID,
         DRIVING_LICENSE
     ]
+
+    #
+    # Email Templated
+    EMAIL_VERIFICATION_LINK = 'email-verification-link'
+    EMAIL_INTERNAL_USER_INVITE = 'email-internal-user-invite'
 
 
 const_business = frozen(BusinessConstants())

@@ -50,6 +50,10 @@ class ProcessSkippedError(coreException):
         super().__init__(message)
 
 
+class BadArgumentError(coreException):
+    pass
+
+
 class NotAllowedError(coreException):
     pass
 

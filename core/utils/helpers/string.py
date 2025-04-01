@@ -12,10 +12,12 @@
 """
 
 # ----------- START: Native Imports ---------- #
+import re
+
+from string import Template
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
-from string import Template
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
@@ -27,12 +29,53 @@ __all__ = [
 ]
 
 
-def string_substitute(string, substitutes):
+def string_substitute(string: str, substitutes: dict) -> str:
+    """Substitue the given string with substitutes dictionary.
 
-    if not isinstance(string, str):
-        raise TypeError(
-            f"Argument string is expected as string type, Got {type(string).__name__}"
-        )
+    Usage:
+        >>> string_substitute(string='The value is: $value', substitutes={'value': 1000}
+        'The value is: 1000'
+    """
 
     return Template(string).safe_substitute(substitutes)
+
+
+def apply_title_case(text: str) -> str:
+    """Replaces non-alphanumeric and non-whitespace and underscore characters, then converts to title case.
+    """
+    # Keep only alphanumeric, hypens and underscore
+    text = re.sub(r'[^a-zA-Z0-9\-_\:]', '', text)
+
+    # Replace hypens and underscore with whitespace
+    text = re.sub(r'[-_\:]', ' ', text)
+
+    return text.title()
+
+
+def extract_name_from_email(email: str) -> str:
+    """Extracts name from given email.
+
+    Usage:
+        >>> extract_name_from_email(email='john.doe_123@example.com')
+        'John Doe'
+
+    """
+    # Get the name for fallback
+    name, *_ = email.split('@')
+
+    # Extract the part before @
+    match = re.match(r"([^@]+)", email)
+
+    if match:
+        try:
+            #
+            # Try getting a nicer name
+            name = match.group(1)
+            # Replace non-alphabetic characters with space
+            name = re.sub(r"[\W\d_]+", " ", name).strip().title()
+
+        except Exception:
+            pass
+
+    return apply_title_case(name)
 
