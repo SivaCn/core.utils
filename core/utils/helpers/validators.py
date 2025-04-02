@@ -101,3 +101,34 @@ def is_valid_plan_name(name: str) -> bool:
     pattern = re.compile(const_regex.UPPER_CASE_LETTERS_N_NUMBERS_N_HYPENS)
     return bool(re.fullmatch(pattern, name))
 
+
+def is_strong_password(
+        password: str,
+        min_length: int = 8,
+        require_upper: bool = True,
+        require_lower: bool = True,
+        require_number: bool = True,
+        require_special: bool = True,
+) -> bool:
+
+    # Check minimum length
+    if len(password) < min_length:
+        return False
+
+    # Check for uppercase letters
+    if require_upper and not re.search(r'[A-Z]', password):
+        return False
+
+    # Check for lowercase letters
+    if require_lower and not re.search(r'[a-z]', password):
+        return False
+
+    # Check for numbers
+    if require_number and not re.search(r'[0-9]', password):
+        return False
+
+    # Check for special characters
+    if require_special and not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False
+
+    return True
