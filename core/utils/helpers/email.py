@@ -66,7 +66,7 @@ def send_email(
 
     result = list()
 
-    for retry_attempt in range(3):
+    for retry_attempt in range(int(email_config.fail_try_attempts)):
 
         # Initialize Mandrill client
         mandrill_client = mandrill.Mandrill(os.getenv('MANDRILL_API_KEY'))
@@ -77,14 +77,14 @@ def send_email(
             'text': text_content,
             'subject': subject,
             'from_email': email_config.sender_email_id,
-            'from_name': yellow_config.company_name,
+            'from_name': yellow_config.org_name,
             'to': recipients_detail,
             'important': True,
             'track_opens': True,
             'track_clicks': True,
             'tags': tags or list(),
             'metadata': {
-                'website': yellow_config.yellow_website
+                'website': yellow_config.org_website
             }
         }
 
