@@ -43,11 +43,8 @@ def string_substitute(string: str, substitutes: dict) -> str:
 def apply_title_case(text: str) -> str:
     """Replaces non-alphanumeric and non-whitespace and underscore characters, then converts to title case.
     """
-    # Keep only alphanumeric, hypens and underscore
-    text = re.sub(r'[^a-zA-Z0-9\-_\:]', '', text)
-
-    # Replace hypens and underscore with whitespace
-    text = re.sub(r'[-_\:]', ' ', text)
+    # Replace underscore, hypens, colon and dot with whitespace
+    text = re.sub(r'[_\-\:\.]', ' ', text)
 
     return text.title()
 

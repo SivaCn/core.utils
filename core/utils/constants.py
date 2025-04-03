@@ -273,13 +273,26 @@ class BusinessConstants(object):
         DRIVING_LICENSE
     ]
 
-    #
-    # Email Templated
-    EMAIL_VERIFICATION_LINK = 'email-verification-link'
-    EMAIL_INTERNAL_USER_INVITE = 'email-internal-user-invite'
-
 
 const_business = frozen(BusinessConstants())
+
+
+class EmailConstants(object):
+    #
+    # Email Template Bindings
+    EMAIL_VERIFICATION_LINK = 'email-verification-link'
+    EMAIL_ADMIN_INVITE = 'email-admin-invite'
+    EMAIL_ADMIN_LOGIN_OTP = 'email-admin-login-otp'
+
+    EMAIL_SUBJECT_DEFAULT = 'Greetings from Yellow'
+    EMAIL_SUBJECT_VERIFICATION_LINK = ''
+    EMAIL_SUBJECT_ADMIN_INVITE = 'Action Required: Your Invite from Yellow is inside'
+    EMAIL_SUBJECT_ADMIN_LOGIN_OTP = 'Action Required: Your one-time passcode is inside'
+
+    EMAIL_OTP_EXPIRES_AFTER_MINUTES = 10
+
+
+const_email = frozen(EmailConstants())
 
 
 class LoggingConstants(object):
