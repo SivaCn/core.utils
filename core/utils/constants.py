@@ -283,11 +283,13 @@ class EmailConstants(object):
     EMAIL_VERIFICATION_LINK = 'email-verification-link'
     EMAIL_ADMIN_INVITE = 'email-admin-invite'
     EMAIL_ADMIN_LOGIN_OTP = 'email-admin-login-otp'
+    EMAIL_ADMIN_WELCOME = 'email-admin-welcome'
 
-    EMAIL_SUBJECT_DEFAULT = 'Greetings from Yellow'
+    EMAIL_SUBJECT_DEFAULT = 'Greetings from Yellow organisation'
     EMAIL_SUBJECT_VERIFICATION_LINK = ''
-    EMAIL_SUBJECT_ADMIN_INVITE = 'Action Required: Your Invite from Yellow is inside'
-    EMAIL_SUBJECT_ADMIN_LOGIN_OTP = 'Action Required: Your one-time passcode is inside'
+    EMAIL_SUBJECT_ADMIN_INVITE = 'You are invited to join Yellow organisation'
+    EMAIL_SUBJECT_ADMIN_LOGIN_OTP = 'Complete your Login'
+    EMAIL_SUBJECT_ADMIN_WELCOME = 'Welcome to the team'
 
     EMAIL_OTP_EXPIRES_AFTER_MINUTES = 10
 

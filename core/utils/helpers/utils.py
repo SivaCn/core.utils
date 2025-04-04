@@ -25,6 +25,7 @@ from types import SimpleNamespace
 
 # ----------- START: Third Party Imports ---------- #
 import yaml
+import shortuuid
 import simplejson as json
 # ----------- END: Third Party Imports ---------- #
 
@@ -233,6 +234,37 @@ def get_unique_id(prefix: str='') -> str:
     """
 
     return f"{prefix + ':' if prefix else ''}{uuid4().__str__()}"
+
+
+def encode_uuid(uuid_str: str) -> str:
+    """Encodes an uuid.
+
+    Usage:
+        >>> encode_uuid('3f1975da-d9c6-4315-86a7-901292d8fd6b')
+        'DEve3pkxKQ3EQEZ2knY44z'
+    """
+    return shortuuid.encode(UUID(uuid_str))
+
+
+def decode_encoded_uuid(encoded_uuid: str) -> str:
+    """Decodes an encoded uuid.
+
+    Usage:
+        >>> decode_encoded_uuid('DEve3pkxKQ3EQEZ2knY44z')
+        '3f1975da-d9c6-4315-86a7-901292d8fd6b'
+    """
+    return shortuuid.decode(encoded_uuid)
+
+
+def encoded_uuid() -> str:
+    """Generates a new encoded uuid
+
+    Usage:
+        >>> encoded_uuid()
+        'Fe5PAKK326otMkaxw2Ezgb'
+
+    """
+    return shortuuid.encode(uuid4())
 
 
 def sliced_uuid(uuid_str: Optional[str]=None, index: int=0) -> str:
