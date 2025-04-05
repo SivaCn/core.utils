@@ -186,10 +186,11 @@ class BusinessConstants(object):
 
     #
     # User Roles
-    ADMIN_SUPER = 'ADMIN-SUPER'
-    ADMIN_CONTENT = 'ADMIN-CONTENT'
-    ADMIN_SUPPORT = 'ADMIN-SUPPORT'
-    USER = 'USER'
+    ROLE_ADMIN = 'YELLOW-ADMIN'
+    ROLE_CONTENT = 'CONTENT'
+    ROLE_SUPPORT = 'SUPPORT'
+    ROLE_OPERATIONS = 'OPERATIONS'
+    ROLE_USER = 'USER'
 
     EMAIL = 'EMAIL'
     PHONE = 'PHONE'
