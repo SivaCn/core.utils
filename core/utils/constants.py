@@ -179,6 +179,10 @@ const_regex = frozen(RegexConstants())
 class BusinessConstants(object):
     #
     # All Business Related
+    IS_ACTIVE_YES = 'Y'
+    IS_ACTIVE_NO = 'N'
+    IS_ACTIVE_DELETED = 'D'
+    IS_ACTIVE_ARCHIVED = 'A'
 
     #
     # Duration Periods
