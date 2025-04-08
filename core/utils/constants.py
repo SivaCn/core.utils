@@ -185,6 +185,11 @@ class BusinessConstants(object):
     IS_ACTIVE_ARCHIVED = 'A'
 
     #
+    # Plan Related
+    PLAN = 'PLAN'
+    ADD_ON = 'ADD_ON'
+
+    #
     # Duration Periods
     MONTH = 'MONTH'
 
@@ -200,7 +205,7 @@ class BusinessConstants(object):
     PHONE = 'PHONE'
 
     INVITED = 'INVITED'
-    RE_INVITED = 'RE-INVITED'
+    RE_INVITED = 'RE_INVITED'
     ACCEPTED = 'ACCEPTED'
     EXPIRED = 'EXPIRED'
     REVOKED = 'REVOKED'
