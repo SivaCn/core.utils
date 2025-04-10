@@ -102,6 +102,13 @@ def is_valid_plan_name(name: str) -> bool:
     return bool(re.fullmatch(pattern, name))
 
 
+def is_valid_coupon_code(code: str) -> bool:
+    """Validates a given coupon Code."""
+
+    pattern = re.compile(const_regex.UPPER_CASE_LETTERS_N_NUMBERS_N_HYPENS)
+    return bool(re.fullmatch(pattern, code))
+
+
 def is_strong_password(
         password: str,
         min_length: int = 8,

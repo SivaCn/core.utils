@@ -41,6 +41,22 @@ class GeneralConstants(object):
 const_general = frozen(GeneralConstants())
 
 
+class OperatorConstants(object):
+    #
+    # Numeric Operators Related
+    EQUAL = '='
+    NOT_EQUAL = '!='
+    LESS_THAN = '<'
+    LESS_THAN_OR_EQUAL = '<='
+    GREATER_THAN = '>'
+    GREATER_THAN_OR_EQUAL = '>='
+
+    CONTAINS = 'contains'
+
+
+const_operators = frozen(OperatorConstants())
+
+
 class HTTPStatusCodes(object):
     #
     # HTTP Status codes
@@ -285,6 +301,18 @@ class BusinessConstants(object):
 
 
 const_business = frozen(BusinessConstants())
+
+
+class CouponConstants(object):
+    #
+    # Coupons Related
+    DISCOUNT_TYPE_PERCENT = 'PERCENT'
+    DISCOUNT_TYPE_FLAT = 'FLAT'
+
+    RESTRICTION_TYPE_USER = 'USER'
+
+
+const_coupon = frozen(CouponConstants())
 
 
 class EmailConstants(object):

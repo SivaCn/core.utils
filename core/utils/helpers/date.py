@@ -17,7 +17,7 @@
 # ----------- START: Third Party Imports ---------- #
 import pendulum
 
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
@@ -30,9 +30,19 @@ __all__ = [
 ]
 
 
+def isoformat(source_obj: date | datetime) -> str:
+    """Returns ISO-8601 format."""
+    return source_obj.isoformat()
+
+
+def iso_date(date_obj: date) -> str:
+    """Returns ISO-8601 format."""
+    return isoformat(date_obj)
+
+
 def iso_datetime(datetime_obj: datetime) -> str:
     """Returns ISO-8601 format."""
-    return datetime_obj.isoformat()
+    return isoformat(datetime_obj)
 
 
 def utc_now() -> datetime:
@@ -155,4 +165,35 @@ def parse_datetime_from_iso(data, fmt=None, tz=False, as_iso=True):
     if as_iso:
         return result
     return datetime.strptime(result, fmt)
+
+
+def pendulum_to_datetime(pendulum_object: datetime) -> datetime:
+    """convert between Pendulum's datetime objects and Python's standard datetime.datetime objects.
+    """
+
+    #
+    # explicit conversion
+    return datetime(
+        pendulum_object.year,
+        pendulum_object.month,
+        pendulum_object.day,
+        pendulum_object.hour,
+        pendulum_object.minute,
+        pendulum_object.second,
+    )
+
+def day_start(date: date | datetime) -> datetime:
+    """."""
+
+    return pendulum_to_datetime(
+        pendulum.parse(isoformat(date), tz=None).start_of('day')
+    )
+
+
+def day_end(date: date | datetime) -> datetime:
+    """."""
+
+    return pendulum_to_datetime(
+        pendulum.parse(isoformat(date), tz=None).end_of('day')
+    )
 
