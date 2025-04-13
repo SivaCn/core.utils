@@ -195,6 +195,9 @@ const_regex = frozen(RegexConstants())
 class BusinessConstants(object):
     #
     # All Business Related
+    DEFAULT_ITEMS_PER_PAGE = 10
+    DEFAULT_CURRENT_PAGE = 1
+
     IS_ACTIVE_YES = 'Y'
     IS_ACTIVE_NO = 'N'
     IS_ACTIVE_DELETED = 'D'
