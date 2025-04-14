@@ -228,6 +228,7 @@ class BusinessConstants(object):
     ACCEPTED = 'ACCEPTED'
     EXPIRED = 'EXPIRED'
     REVOKED = 'REVOKED'
+    FORGOT_PASSWORD = 'FORGOT_PASSWORD'
 
     MALE = 'MALE'
     FEMALE = 'FEMALE'
@@ -325,12 +326,16 @@ class EmailConstants(object):
     EMAIL_ADMIN_INVITE = 'email-admin-invite'
     EMAIL_ADMIN_LOGIN_OTP = 'email-admin-login-otp'
     EMAIL_ADMIN_WELCOME = 'email-admin-welcome'
+    EMAIL_ADMIN_FORGOT_PASSWORD = 'email-admin-forgot-password'
+    EMAIL_ADMIN_CHANGED_PASSWORD = 'email-admin-changed-password'
 
     EMAIL_SUBJECT_DEFAULT = 'Greetings from Yellow organisation'
     EMAIL_SUBJECT_VERIFICATION_LINK = ''
     EMAIL_SUBJECT_ADMIN_INVITE = 'You are invited to join Yellow organisation'
     EMAIL_SUBJECT_ADMIN_LOGIN_OTP = 'Complete your Login'
     EMAIL_SUBJECT_ADMIN_WELCOME = 'Welcome to the team'
+    EMAIL_SUBJECT_ADMIN_FORGOT_PASSWORD = 'Reset Password'
+    EMAIL_SUBJECT_ADMIN_CHANGED_PASSWORD = 'Your Password Has Been Reset'
 
     EMAIL_OTP_EXPIRES_AFTER_MINUTES = 10
 

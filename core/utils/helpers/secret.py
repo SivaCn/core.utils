@@ -30,10 +30,24 @@ __all__ = [
 ]
 
 
+def generate_secret_key(length: int = 32) -> str:
+    """Generates secret key.
+
+    Usage:
+        >>> generate_secret_key()
+        'xueiTge6k9Rr-FMFfu9PfnYyrjRiNKKr'
+    """
+
+    # Characters to choose from (letters, digits, hypen(five times))
+    alphabet = string.ascii_letters + string.digits + '-' * 5
+
+    # Generate a random string with cryptographic safety
+    return ''.join(secrets.choice(alphabet) for _ in range(length))
+
+
 def generate_token(category: str='invite') -> str:
 
-    token = f"{category}_{secrets.token_urlsafe(32)}"
-    return sha256(token.encode()).hexdigest()
+    return f"{category}_{generate_secret_key()}"
 
 
 def generate_otp(length: int=6) -> str:
