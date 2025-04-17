@@ -207,6 +207,12 @@ class BusinessConstants(object):
     IS_ACTIVE_ARCHIVED = 'A'
 
     #
+    # Plan Features
+    WILL_PDF_DOWNLOAD = 'WILL-PDF-DOWNLOAD'
+    WILL_PRINT_AND_SHIP = 'WILL-PRINT-AND-SHIP'
+    ONE_ON_ONE_VIDEO_CALL = 'ONE-ON-ONE-VIDEO-CALL'
+
+    #
     # Plan Related
     PLAN = 'PLAN'
     ADD_ON = 'ADD_ON'
