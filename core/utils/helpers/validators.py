@@ -23,13 +23,27 @@ from email_validator import validate_email, EmailNotValidError
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
-from core.utils.constants import const_regex
+from core.utils.constants import (
+    const_regex,
+    const_business,
+)
 # ----------- END: In-App Imports ---------- #
 
 
 __all__ = [
     # All public symbols go here.
 ]
+
+
+def validate_is_active(is_active: str) -> bool:
+
+    allowed_values = (
+        const_business.IS_ACTIVE_YES,
+        const_business.IS_ACTIVE_NO,
+        const_business.IS_ACTIVE_DELETED,
+    )
+
+    return is_active in allowed_values
 
 
 def is_valid_email(email):
