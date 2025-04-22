@@ -260,23 +260,42 @@ class BusinessConstants(object):
     ]
 
     #
+    # Immovable Asset Types
+    RESIDENTIAL = 'RESIDENTIAL'
+    COMMERCIAL = 'COMMERCIAL'
+    AGRICULTURAL = 'AGRICULTURAL'
+
+    #
+    # Immovable Asset Sub Types
+    PLOT = 'PLOT'
+    VILLA = 'VILLA'
+    APARTMENT = 'APARTMENT'
+    BUILDING = 'BUILDING'
+
+    NOT_APPLICABLE = 'NA'
+
+    #
+    # Holding Types
+    SINGLE = 'SINGLE'
+    JOINT = 'JOINT'
+
+    #
     # Dropdown Enums
     RELIGION = 'RELIGION'
     RELATIONSHIP = 'RELATIONSHIP'
     ID_PROOF = 'ID_PROOF'
     INVITE_ROLES = 'INVITE_ROLES'
 
+
     #
-    # Dropdown Options
-    RELIGION_OPTIONS = [
-        'HINDU',
-        'CHRISTIAN',
-        'MUSLIM',
-        'SIKH',
-        'PARSI',
-        'JAIN',
-        'OTHER',
-    ]
+    # Religions
+    HINDU = 'HINDU'
+    CHRISTIAN = 'CHRISTIAN'
+    MUSLIM = 'MUSLIM'
+    SIKH = 'SIKH'
+    PARSI = 'PARSI'
+    JAIN = 'JAIN'
+    OTHER = 'OTHER'
 
     #
     # Relationships
@@ -289,13 +308,7 @@ class BusinessConstants(object):
     OTHER = 'OTHER'
 
     RELATIONSHIP_OPTIONS = [
-        CHILD,
-        PARENT,
-        SPOUSE,
-        SIBLING,
-        FRIEND,
-        RELATIVE,
-        OTHER,
+        CHILD, PARENT, SPOUSE, SIBLING, FRIEND, RELATIVE, OTHER,
     ]
 
     #
