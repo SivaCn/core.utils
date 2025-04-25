@@ -49,6 +49,19 @@ def apply_title_case(text: str) -> str:
     return text.title()
 
 
+def apply_pascal_case(text: str):
+    """Convert the given string into pascal case.
+
+    Usage:
+        >>> apply_pascal_case(text='api_request_otp')
+        'ApiRequestOtp'
+    """
+
+    return ''.join(
+        word.capitalize() for word in text.split('_')
+    )
+
+
 def extract_name_from_email(email: str) -> str:
     """Extracts name from given email.
 
