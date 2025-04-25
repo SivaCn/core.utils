@@ -14,26 +14,31 @@
 import os
 
 from typing import List, Optional, Any, Tuple
-from cryptography.fernet import Fernet
 from datetime import datetime, timedelta, UTC
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
 import strawberry
 
-from jose import jwt, JWTError
+from jose import jwt, jwe, JWTError
 from fastapi import HTTPException
 from passlib.context import CryptContext
+
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
 from core.utils.helpers.utils import (
-    json_safe,
+    json_serialize,
+    json_deserialize,
 )
 
 from core.utils.constants import const_auth
 
-from core.utils.helpers.environ import get_build_config
+from core.utils.helpers.environ import get_build_path
+
+from core.utils.helpers.store import set_to_store, fetch_from_store
 # ----------- END: In-App Imports ---------- #
 
 __all__ = [
@@ -41,18 +46,66 @@ __all__ = [
 ]
 
 
-general_config = get_build_config(section='general')
-is_prod_env = (general_config.environment.lower() == 'prod')
+build_path = get_build_path()
+STORE_PUBLIC_PEM_KEY = 'JWT-RSA-PUBLIC-PEM-KEY'
+STORE_PRIVATE_PEM_KEY = 'JWT-RSA-PRIVATE-PEM-KEY'
+
+
+class RSA:
+
+    @classmethod
+    def generate_keys(cls):
+
+        # Generate a new RSA key pair (2048-bit for strong security)
+        private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048
+        )
+
+        # Serialize private key (PEM format)
+        private_pem = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        ).decode()
+
+        # Serialize public key (PEM format)
+        public_pem = private_key.public_key().public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        ).decode()
+
+        #
+        # Set the Public and Private keys to store, which expires after 7 days (i.e., 604800 seconds)
+        set_to_store(public_pem, key=STORE_PUBLIC_PEM_KEY, expires_after=604800)
+        set_to_store(private_pem, key=STORE_PRIVATE_PEM_KEY, expires_after=604800)
+
+        return private_pem, public_pem
+
+    @classmethod
+    def load_or_generate_keys(cls):
+
+        public_pem = fetch_from_store(key=STORE_PUBLIC_PEM_KEY)
+        private_pem = fetch_from_store(key=STORE_PRIVATE_PEM_KEY)
+
+        if not public_pem or not private_pem:
+            private_pem, public_pem = cls.generate_keys()
+
+        return private_pem, public_pem
+
+    @classmethod
+    def get_rsa_keys(cls):
+        return cls.load_or_generate_keys()
 
 
 class JWT:
 
     def __init__(self):
-        if not const_auth.JWT_SECRECT_KEY or not const_auth.JWT_ALGORITHM:
-            raise Exception("CRITICAL: Unable to read JWT related details")
 
-        # fernet_key = Fernet.generate_key()
-        self.cipher_suite = Fernet(os.getenv('FERNET_KEY'))
+        private_pem, public_pem = RSA.get_rsa_keys()
+
+        self.private_key = private_pem
+        self.public_key = public_pem
 
     def create_access_token(self, custom_claims: dict) -> str:
 
@@ -73,18 +126,14 @@ class JWT:
             **custom_claims,
         }
 
-        token = jwt.encode(
-            json_safe(payload),
-            os.getenv('JWT_SECRET_KEY'),
-            algorithm=os.getenv('JWT_ALGORITHM')
+        token = jwe.encrypt(
+            json_serialize(payload),
+            self.public_key,
+            algorithm="RSA-OAEP-256",
+            encryption="A256GCM"  # AES-256 GCM for strong encryption
         )
 
-        if is_prod_env:
-            # Encrypt the token for additional security
-            encrypted_token = self.cipher_suite.encrypt(token.encode())
-            return encrypted_token.decode()
-
-        return token
+        return token.decode()
 
     def decode_token(self, token: str) -> Any:
 
@@ -93,31 +142,25 @@ class JWT:
         # JWT Authentication
         @strawberry.type
         class TokenData(BaseDataClass):
-            email: str
             user_slug: str
-            roles: Optional[List[str]]=None
+            email: Optional[str] = None
+            roles: Optional[List[str]] = None
 
             def __init__(self, **kwargs):
                 super(TokenData, self).__init__(**kwargs)
 
         try:
-            if is_prod_env:
-                # Decrypt the token
-                token = self.cipher_suite.decrypt(token.encode())
+            payload = jwe.decrypt(token, self.private_key)
 
-            payload = jwt.decode(
-                token,
-                os.getenv('JWT_SECRET_KEY'),
-                algorithms=[os.getenv('JWT_ALGORITHM')]
-            )
+        except JWTError as error:
+            raise HTTPException(status_code=401, detail=f"Invalid token: {error}")
 
-            if not payload.get('user_slug'):
-                raise HTTPException(status_code=401, detail="Invalid token, required details are missing")
+        payload = json_deserialize(payload.decode()) if payload else dict()
 
-            return TokenData(**payload)
+        if 'user_slug' not in payload:
+            raise HTTPException(status_code=401, detail="Invalid token, required user details are missing")
 
-        except JWTError:
-            raise HTTPException(status_code=401, detail="Invalid token")
+        return TokenData(**payload)
 
 
 class Password:
