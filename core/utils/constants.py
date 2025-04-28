@@ -51,8 +51,8 @@ class OperatorConstants(object):
     GREATER_THAN = '>'
     GREATER_THAN_OR_EQUAL = '>='
 
-    IN = 'in'
-    NOT_IN = 'not in'
+    ANY = 'in'
+    NOT_ANY = 'not in'
 
     CONTAINS = 'contains'
 
