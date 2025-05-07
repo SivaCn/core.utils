@@ -307,9 +307,16 @@ class BusinessConstants(object):
     RELATIVE = 'RELATIVE'
     OTHER = 'OTHER'
 
-    RELATIONSHIP_OPTIONS = [
-        CHILD, PARENT, SPOUSE, SIBLING, FRIEND, RELATIVE, OTHER,
-    ]
+    #
+    # Relationship Associations
+    SON = 'SON'
+    DAUGHTER = 'DAUGHTER'
+    FATHER = 'FATHER'
+    MOTHER = 'MOTHER'
+    HUSBAND = 'HUSBAND'
+    WIFE = 'WIFE'
+    BROTHER = 'BROTHER'
+    SISTER = 'SISTER'
 
     #
     # ID Proofs
@@ -317,13 +324,6 @@ class BusinessConstants(object):
     PASSPORT = 'PASSPORT'
     DRIVING_LICENSE = 'DRIVING-LICENCE'
     VOTER_ID = 'VOTER-ID'
-
-    ID_PROOF_OPTIONS = [
-        PAN,
-        PASSPORT,
-        VOTER_ID,
-        DRIVING_LICENSE
-    ]
 
 
 const_business = frozen(BusinessConstants())
