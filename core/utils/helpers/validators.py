@@ -57,6 +57,34 @@ def is_valid_email(email):
         return False
 
 
+def is_valid_website(url: str) -> bool:
+    """Validates a given website address.
+
+    Usage:
+        >>> is_valid_website("https://www.example.com")
+        True
+        >>> is_valid_website("http://sub.example.com/path")
+        True
+        >>> is_valid_website("example.com")
+        True
+        >>> is_valid_website("www.example.org")
+        True
+        >>> is_valid_website("invalid.url")
+        False
+        >>> is_valid_website("http://example")
+        False
+    """
+
+    pattern = re.compile(
+        r'^(https?:\/\/)?'  # http:// or https:// (optional)
+        r'([a-zA-Z0-9-]+\.)+'  # subdomains
+        r'[a-zA-Z]{2,}'  # top level domain (at least 2 chars)
+        r'(\/[a-zA-Z0-9-._~:\/?#\[\]@!$&\'()*+,;=]*)?'  # path/query params
+        r'$'
+    )
+    return bool(pattern.match(url))
+
+
 def is_valid_mobile_number(mobile_number: str) -> bool:
     """Validates a mobile numer."""
 

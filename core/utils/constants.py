@@ -232,6 +232,9 @@ class BusinessConstants(object):
     EMAIL = 'EMAIL'
     PHONE = 'PHONE'
 
+    PERSON = 'PERSON'
+    CHARITY = 'CHARITY'
+
     INVITED = 'INVITED'
     RE_INVITED = 'RE_INVITED'
     ACCEPTED = 'ACCEPTED'
