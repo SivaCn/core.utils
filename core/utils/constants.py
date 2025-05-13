@@ -207,6 +207,10 @@ class BusinessConstants(object):
     IS_ACTIVE_ARCHIVED = 'A'
 
     #
+    PRIMARY = 'PRIMARY'
+    SECONDARY = 'SECONDARY'
+
+    #
     # Plan Features
     WILL_PDF_DOWNLOAD = 'WILL-PDF-DOWNLOAD'
     WILL_PRINT_AND_SHIP = 'WILL-PRINT-AND-SHIP'
