@@ -377,10 +377,25 @@ class EmailConstants(object):
     EMAIL_SUBJECT_ADMIN_FORGOT_PASSWORD = 'Reset Password'
     EMAIL_SUBJECT_ADMIN_CHANGED_PASSWORD = 'Your Password Has Been Reset'
 
-    EMAIL_OTP_EXPIRES_AFTER_MINUTES = 10
+    USER_VERIFY_EMAIL_VIA_OTP = 'verify_email_via_otp'
+    SUBJECT_USER_VERIFY_EMAIL_VIA_OTP = 'Verify your Email'
 
 
 const_email = frozen(EmailConstants())
+
+
+class StoreConstants(object):
+    #
+    # Store Related
+    DEFAULT_EXPIRE_AFTER_SECONDS = 600
+    OTP_EXPIRES_AFTER_SECONDS = 600
+
+    PREFIX_VERIFIED_EMAIL = 'VERIFIED-EMAIL'
+    PREFIX_EMAIL_VERIFY_OTP = 'EMAIL-VERIFY-OTP'
+    PREFIX_LOGIN_OTP = 'LOGIN-OTP'
+
+
+const_store = frozen(StoreConstants())
 
 
 class LoggingConstants(object):
