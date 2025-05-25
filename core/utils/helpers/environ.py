@@ -156,8 +156,8 @@ def get_build_config(section: str | None=None) -> dict:
         return {
             'database': database_name,
             'verbose': verbose,
-            'master': _V_BUILD_CONFIG_CACHE['db-master'],
-            'replica': _V_BUILD_CONFIG_CACHE['db-replica'],
+            'master': _V_BUILD_CONFIG_CACHE['db-meta-master'],
+            'replica': _V_BUILD_CONFIG_CACHE['db-meta-replica'],
         }
 
     global _V_BUILD_CONFIG_CACHE

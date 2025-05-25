@@ -20,7 +20,8 @@ from datetime import datetime, timedelta, UTC
 # ----------- START: Third Party Imports ---------- #
 import strawberry
 
-from jose import jwt, jwe, JWTError
+from jwcrypto import jwk, jwe
+from jose import JWTError
 from fastapi import HTTPException
 from passlib.context import CryptContext
 
@@ -67,13 +68,13 @@ class RSA:
             encoding=serialization.Encoding.PEM,
             format=serialization.PrivateFormat.PKCS8,
             encryption_algorithm=serialization.NoEncryption()
-        ).decode()
+        )
 
         # Serialize public key (PEM format)
         public_pem = private_key.public_key().public_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.SubjectPublicKeyInfo
-        ).decode()
+        )
 
         #
         # Set the Public and Private keys to store, which expires after 7 days (i.e., 604800 seconds)
@@ -91,7 +92,7 @@ class RSA:
         if not public_pem or not private_pem:
             private_pem, public_pem = cls.generate_keys()
 
-        return private_pem, public_pem
+        return private_pem.encode(), public_pem.encode()
 
     @classmethod
     def get_rsa_keys(cls):
@@ -100,12 +101,29 @@ class RSA:
 
 class JWT:
 
+    # Prepare protected header
+    PROTECTED_HEADER = {
+        "alg": "RSA-OAEP-256",      # Key encryption algorithm
+        "enc": "A256GCM",           # Content encryption
+        "typ": "JWT",               # Token type
+        "cty": "application/json"   # Content type
+    }
+
     def __init__(self):
 
         private_pem, public_pem = RSA.get_rsa_keys()
 
-        self.private_key = private_pem
-        self.public_key = public_pem
+        self.private_key = jwk.JWK.from_pem(private_pem)
+        self.public_key = jwk.JWK.from_pem(public_pem)
+
+    def json_to_compact(self, jwe_as_dict):
+        return (
+            f"{jwe_as_dict['protected']}."
+            f"{jwe_as_dict['encrypted_key']}."
+            f"{jwe_as_dict['iv']}."
+            f"{jwe_as_dict['ciphertext']}."
+            f"{jwe_as_dict['tag']}"
+        )
 
     def create_access_token(self, custom_claims: dict) -> str:
 
@@ -126,14 +144,18 @@ class JWT:
             **custom_claims,
         }
 
-        token = jwe.encrypt(
-            json_serialize(payload),
-            self.public_key,
-            algorithm="RSA-OAEP-256",
-            encryption="A256GCM"  # AES-256 GCM for strong encryption
+        # Create JWE token
+        token = jwe.JWE(
+            plaintext=json_serialize(payload).encode('utf-8'),
+            protected=self.PROTECTED_HEADER,
+            recipient=self.public_key
         )
 
-        return token.decode()
+        return self.json_to_compact(
+            json_deserialize(
+                token.serialize()
+            )
+        )
 
     def decode_token(self, token: str) -> Any:
 
@@ -142,22 +164,22 @@ class JWT:
         # JWT Authentication
         @strawberry.type
         class TokenData(BaseDataClass):
-            user_slug: str
+            admin_slug: Optional[str] = None
+            user_slug: Optional[str] = None
             email: Optional[str] = None
             roles: Optional[List[str]] = None
 
             def __init__(self, **kwargs):
                 super(TokenData, self).__init__(**kwargs)
 
-        try:
-            payload = jwe.decrypt(token, self.private_key)
+        jwe_token = jwe.JWE()
+        jwe_token.deserialize(token)
+        jwe_token.decrypt(self.private_key)
+        jwe_token.payload.decode('utf-8')
 
-        except JWTError as error:
-            raise HTTPException(status_code=401, detail=f"Invalid token: {error}")
+        payload = json_deserialize(jwe_token.payload.decode('utf-8'))
 
-        payload = json_deserialize(payload.decode()) if payload else dict()
-
-        if 'user_slug' not in payload:
+        if 'admin_slug' not in payload and 'user_slug' not in payload:
             raise HTTPException(status_code=401, detail="Invalid token, required user details are missing")
 
         return TokenData(**payload)

@@ -50,10 +50,19 @@ def generate_token(category: str='invite') -> str:
     return f"{category}_{generate_secret_key()}"
 
 
-def generate_otp(length: int=6) -> str:
+def generate_otp(length: int=6, chars: bool=False) -> str:
     """For OTP codes"""
 
+    characters = string.digits  # 0-9
+    if chars:
+        characters = characters + string.ascii_uppercase  # A-Z
+
     return ''.join(
-        secrets.choice(string.digits) for _ in range(length)
+        secrets.choice(characters) for _ in range(length)
     )
+
+
+def generate_otp_for_email(length: int=6) -> str:
+    """For OTP codes"""
+    return generate_otp(length=length, chars=True)
 

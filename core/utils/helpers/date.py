@@ -17,7 +17,7 @@
 # ----------- START: Third Party Imports ---------- #
 import pendulum
 
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, UTC
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
@@ -55,7 +55,15 @@ def utc_now() -> datetime:
         '2025-04-01T10:12:47+00:00'
     """
 
-    return datetime.now(timezone.utc).replace(microsecond=0).replace(tzinfo=None)
+    return datetime.now(UTC).replace(microsecond=0).replace(tzinfo=None)
+
+
+def today_start_of_day() -> datetime:
+    return datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0).replace(tzinfo=None)
+
+
+def today_end_of_day() -> datetime:
+    return datetime.now(UTC).replace(hour=23, minute=59, second=59, microsecond=0).replace(tzinfo=None)
 
 
 def datetime_add_offset(datetime_obj: datetime, days: int=0) -> datetime:

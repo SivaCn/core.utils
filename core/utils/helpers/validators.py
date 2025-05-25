@@ -96,7 +96,7 @@ def is_valid_mobile_number(mobile_number: str) -> bool:
 def is_valid_otp(otp: str) -> bool:
     """Validates a given OTP number."""
 
-    pattern = re.compile(const_regex.STRICT_6_DIGITS)
+    pattern = re.compile(const_regex.OTP_6)
 
     return bool(pattern.fullmatch(otp))
 

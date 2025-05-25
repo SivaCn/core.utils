@@ -182,6 +182,7 @@ class RegexConstants(object):
             etc.,
     '''
 
+    OTP_6 = r"^[A-Z0-9]{6}$"
     STRICT_6_DIGITS = r"^\d{6}$"
 
     USER_NAME = r"^[A-Za-z]+([ '-][A-Za-z]+)*$"
@@ -198,6 +199,11 @@ const_regex = frozen(RegexConstants())
 class BusinessConstants(object):
     #
     # All Business Related
+
+    OPEN_API_RATE_LIMIT = "2/minute"
+    CHANGE_ADMIN_PASSWORD_AFTER_DAYS = 7
+    ADMIN_INVITE_EXPIRES_AFTER_DAYS = 1
+
     DEFAULT_ITEMS_PER_PAGE = 10
     DEFAULT_CURRENT_PAGE = 1
 
@@ -238,11 +244,11 @@ class BusinessConstants(object):
 
     #
     # User Roles
-    ROLE_ADMIN = 'YELLOW-ADMIN'
+    ROLE_SUPER_ADMIN = 'SUPER-ADMIN'
+    ROLE_ADMIN = 'ADMIN'
     ROLE_CONTENT = 'CONTENT'
     ROLE_SUPPORT = 'SUPPORT'
     ROLE_OPERATIONS = 'OPERATIONS'
-    ROLE_USER = 'USER'
 
     EMAIL = 'EMAIL'
     PHONE = 'PHONE'
