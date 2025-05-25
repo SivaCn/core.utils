@@ -200,6 +200,8 @@ class BusinessConstants(object):
     #
     # All Business Related
 
+    ADMIN_PROD_EMAIL = 'admin.eng@getyellow.in'
+
     OPEN_API_RATE_LIMIT = "2/minute"
     CHANGE_ADMIN_PASSWORD_AFTER_DAYS = 7
     ADMIN_INVITE_EXPIRES_AFTER_DAYS = 1
