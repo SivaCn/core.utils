@@ -185,11 +185,50 @@ class RegexConstants(object):
     OTP_6 = r"^[A-Z0-9]{6}$"
     STRICT_6_DIGITS = r"^\d{6}$"
 
+    WORKSPACE = r"^[a-z0-9]+$"
+    '''strings containing only lowercase letters and numbers'''
+
     USER_NAME = r"^[A-Za-z]+([ '-][A-Za-z]+)*$"
     '''Valid names are: John Doe, Mary-Jane, O'Connor, Anne Marie, Jean-Luc'''
 
     UPPER_CASE_LETTERS_N_NUMBERS_N_HYPENS = r'^[A-Z0-9]+(?:-[A-Z0-9]+)*$'
     '''uppercase letters, numbers, and hyphens, where hyphens are not allowed at the start or end
+    '''
+
+    DB_HOST = (
+        r'^(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}'
+        r'|localhost'
+        r'|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
+        r'|\[?[0-9a-fA-F:]+\]?)(?::\d+)?$'
+    )
+    '''
+    Valid:
+       localhost
+       postgres.example.com
+       192.168.1.1
+       mysql.internal:5432
+
+    Invalid:
+        http://example.com (protocol not allowed)
+        example..com (double dots)
+        256.1.1.1 (invalid IPv4)
+        hostname/ (special chars)
+    '''
+
+    DB_PORT = r"^\d{4,}$"
+
+    DB_NAME = r"^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$"
+    '''
+    Valid Names:
+        mydb
+        app_db1
+        analytics_prod
+        user_data_2024
+
+    Invalid Names:
+        1database (starts with a number)
+        my-db! (contains special characters)
+        this_name_is_way_too_long_for_most_database_engines_and_will_be_rejected (>64 chars)
     '''
 
 

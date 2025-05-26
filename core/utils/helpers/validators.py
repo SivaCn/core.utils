@@ -112,6 +112,14 @@ def is_valid_uuid4(uuid_str):
         return False
 
 
+def is_valid_workspace(workspace: str) -> bool:
+    """Validates a given Workspace."""
+
+    pattern = re.compile(const_regex.WORKSPACE)
+
+    return bool(pattern.fullmatch(workspace))
+
+
 def is_valid_user_slug(user_slug: str) -> bool:
     """Validates a given user slug."""
 
@@ -124,6 +132,30 @@ def is_valid_user_name(name: str) -> bool:
     pattern = re.compile(const_regex.USER_NAME)
 
     return bool(pattern.fullmatch(name))
+
+
+def is_valid_db_host(db_host: str) -> bool:
+    """Validates a given Database Host."""
+
+    pattern = re.compile(const_regex.DB_HOST)
+
+    return bool(pattern.fullmatch(db_host))
+
+
+def is_valid_db_port(db_port: str) -> bool:
+    """Validates a given Database Port."""
+
+    pattern = re.compile(const_regex.DB_PORT)
+
+    return bool(pattern.fullmatch(db_port))
+
+
+def is_valid_db_name(db_name: str) -> bool:
+    """Validates a given Database Name."""
+
+    pattern = re.compile(const_regex.DB_NAME)
+
+    return bool(pattern.fullmatch(db_name))
 
 
 def is_valid_iso_date(date_str):
