@@ -174,12 +174,9 @@ const_auth = frozen(AuthorizationConstants())
 class RegexConstants(object):
     #
     # All regex patterns
-    MOBILE_NUMBER = r"(?P<country_code>\+\d{1,3})[\-](?P<number>\d{7,15})"
+    MOBILE_NUMBER = r"(?P<country_code>\+\d{1,3})[\-](?P<number>\d{10})"
     '''Supports:
             +91-9876543210      # India
-            +1-4155552671       # USA
-            +81-9012345678      # Japan
-            etc.,
     '''
 
     OTP_6 = r"^[A-Z0-9]{6}$"
@@ -239,6 +236,8 @@ class BusinessConstants(object):
     #
     # All Business Related
 
+    NA = 'NA'
+
     ADMIN_PROD_EMAIL = 'admin.eng@getyellow.in'
 
     OPEN_API_RATE_LIMIT = "2/minute"
@@ -270,6 +269,11 @@ class BusinessConstants(object):
     #
     # Duration Periods
     MONTH = 'MONTH'
+
+    #
+    # Address Entity Types
+    ADDRESS_PERMANENT = 'PERMANENT'
+    ADDRESS_MAILING = 'MAILING'
 
     #
     # Print and Ship Status Related
