@@ -262,13 +262,16 @@ class BusinessConstants(object):
     WILL_PRINT_AND_SHIP = 'WILL-PRINT-AND-SHIP'
 
     #
-    # Plan Related
+    # Tariff Related
     PLAN = 'PLAN'
+    SUBSCRIPTION = 'SUBSCRIPTION'
     ADD_ON = 'ADD_ON'
 
     #
     # Duration Periods
+    DAY = 'DAY'
     MONTH = 'MONTH'
+    YEAR = 'YEAR'
 
     #
     # Address Entity Types
