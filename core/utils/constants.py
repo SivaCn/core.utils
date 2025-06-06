@@ -253,6 +253,10 @@ class BusinessConstants(object):
     IS_ACTIVE_ARCHIVED = 'A'
 
     #
+    # Tag Categories
+    TARIFF = 'TARIFF'
+
+    #
     PRIMARY = 'PRIMARY'
     SECONDARY = 'SECONDARY'
 
