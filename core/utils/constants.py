@@ -31,6 +31,13 @@ __all__ = [
 class GeneralConstants(object):
     #
     # All General Constants
+
+    #
+    # Environments
+    DEV = 'dev'
+    STAGE = 'stage'
+    PROD = 'prod'
+
     LINE_BREAK = r'\n'
 
     AMQP_CONNECTION_STRING = 'pyamqp://%(username)s:%(password)s@%(host)s:%(port)s/%(virtual_host)s'
@@ -150,6 +157,7 @@ class DateConstants(object):
     # Date and Time Related
     TIME_FORMAT = '%H:%M:%S'
     DATE_FORMAT = '%Y-%m-%d'
+    COMPACT_DATETIME_FORMAT = '%Y%m%dT%H%M%S'
     DATETIME_FORMAT = f'{DATE_FORMAT} {TIME_FORMAT}'
     ISO_DATETIME_FORMAT = f'{DATE_FORMAT}T{TIME_FORMAT}'
     ISO_DATETIME_FORMAT_TZ = f'{DATE_FORMAT}T{TIME_FORMAT}Z'
@@ -453,6 +461,33 @@ class StoreConstants(object):
 
 
 const_store = frozen(StoreConstants())
+
+
+class CloudConstants(object):
+    #
+    # Store Related
+    PROVIDER_GCP = 'GCP'
+    SERVICE_ACCOUNT_KEY_FILE_NAME = 'service-account-key.json'
+
+
+const_cloud = frozen(CloudConstants())
+
+
+class FileConstants(object):
+    #
+    # File related constants
+    PHOTO = 'PHOTO'
+    VIDEO = 'VIDEO'
+    DOCUMENT = 'DOCUMENT'
+
+    THUMBNAIL_SQUARE_SIZE = (128, 128)
+    THUMBNAIL_A4_SIZE = (595, 842)  # A4 at 72dpi, Texts can be best viewed
+
+    PHOTO_FILE_MAX_SIZE = 1024 * 1024 * 2  # 2MB
+    DOCUMENT_FILE_MAX_SIZE = 1024 * 1024 * 10  # 10MB
+
+
+const_file = frozen(FileConstants())
 
 
 class LoggingConstants(object):

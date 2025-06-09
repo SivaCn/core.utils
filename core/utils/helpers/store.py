@@ -10,7 +10,7 @@
 """
 
 # ----------- START: Native Imports ---------- #
-from abc import ABCMeta, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from typing import Any, Optional
 # ----------- END: Native Imports ---------- #
 
@@ -21,6 +21,11 @@ import simplejson as json
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
+from core.utils.constants import (
+    const_cloud,
+    const_general,
+)
+
 from core.utils.helpers.utils import (
     encoded_uuid,
     json_custom_serializer
@@ -295,4 +300,94 @@ def set_to_store(data, key=None, prefix=None, expires_after=None):
 
 def fetch_from_store(key: str, prefix=None):
     return IntermediateStore().get(key=key, prefix=prefix)
+
+
+
+import os
+from fastapi import UploadFile
+from google.cloud import storage
+from google.api_core.exceptions import NotFound, Conflict
+from google.auth.exceptions import DefaultCredentialsError
+
+from core.utils.helpers.environ import get_build_config, get_build_path
+general_build_config = get_build_config('general')
+cloud_build_config = get_build_config('cloud')
+
+
+class BucketStorageService(ABC):
+
+    @abstractmethod
+    async def upload_file(self,
+                          file: UploadFile,
+                          destination_path: str,
+                          content_type: Optional[str] = None) -> bool:
+        """Upload a file to cloud storage"""
+        pass
+
+
+class GCPBucketStorageService(BucketStorageService):
+
+    def __init__(self, workspace: str):
+
+        try:
+            if general_build_config.environment.lower() == const_general.DEV.lower():
+
+                service_account_key_file_path = os.path.join(
+                    get_build_path(), '../..', const_cloud.SERVICE_ACCOUNT_KEY_FILE_NAME
+                )
+                if not os.path.exists(service_account_key_file_path):
+                    raise Exception("Unable to locate the service key file in basebuild directory")
+
+                self.client = storage.Client.from_service_account_json(
+                    service_account_key_file_path
+                )
+
+            else:
+                #
+                # Production: Uses attached service account
+                self.client = storage.Client()
+
+        except DefaultCredentialsError:
+            raise Exception("Unable to access cloud Storage")
+
+        self.bucket_name = cloud_build_config.tenant_bucket_pattern % {'workspace': workspace}
+
+        self.bucket = self.get_or_create_bucket(bucket_name=self.bucket_name)
+
+    def get_or_create_bucket(self, bucket_name: str) -> storage.Bucket:
+
+        try:
+            bucket = self.client.get_bucket(bucket_name)
+
+        except NotFound:
+            bucket = self.client.bucket(bucket_name)
+            bucket.location = cloud_build_config.tenant_bucket_region
+
+            try:
+                bucket = self.client.create_bucket(bucket)
+
+            except Conflict:
+                bucket = self.client.get_bucket(bucket_name)  # bucket created in race condition
+
+        return bucket
+
+    async def upload_file(self,
+                          file,
+                          destination_path: str,
+                          content_type: str) -> bool:
+
+        bucket = self.client.bucket(self.bucket_name)
+        blob = bucket.blob(destination_path)
+        blob.upload_from_file(file, content_type=content_type)
+
+        return True
+
+
+def get_bucket_store(workspace: str) -> BucketStorageService:
+
+    if cloud_build_config.provider == const_cloud.PROVIDER_GCP:
+        return GCPBucketStorageService(workspace=workspace)
+
+    else:
+        raise ValueError(f"Unsupported cloud provider: {cloud_build_config.provider}")
 

@@ -35,6 +35,16 @@ def isoformat(source_obj: date | datetime) -> str:
     return source_obj.isoformat()
 
 
+def compact_datetime(source_obj: date | datetime) -> str:
+    """Function that converts a datetime object into compact string format.
+
+    Usage:
+        >>> compact_datetime(utc_now())
+        '20250608T211030'
+    """
+    return source_obj.strftime(const_dates.COMPACT_DATETIME_FORMAT)
+
+
 def iso_date(date_obj: date) -> str:
     """Returns ISO-8601 format."""
     return isoformat(date_obj)
