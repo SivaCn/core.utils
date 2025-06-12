@@ -457,7 +457,8 @@ class StoreConstants(object):
 
     PREFIX_VERIFIED_EMAIL = 'VERIFIED-EMAIL'
     PREFIX_EMAIL_VERIFY_OTP = 'EMAIL-VERIFY-OTP'
-    PREFIX_LOGIN_OTP = 'LOGIN-OTP'
+    PREFIX_EMAIL_LOGIN_OTP = 'EMAIL-LOGIN-OTP'
+    PREFIX_SMS_LOGIN_OTP = 'SMS-LOGIN-OTP'
 
 
 const_store = frozen(StoreConstants())

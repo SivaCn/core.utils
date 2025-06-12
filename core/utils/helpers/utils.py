@@ -25,6 +25,7 @@ from types import SimpleNamespace
 
 # ----------- START: Third Party Imports ---------- #
 import yaml
+import requests
 import shortuuid
 import simplejson as json
 # ----------- END: Third Party Imports ---------- #
@@ -46,6 +47,11 @@ from core.utils.helpers.date import (
 __all__ = [
     # All public symbols go here.
 ]
+
+
+class Http:
+    def post(self, url: str, headers: dict, data: dict):
+        return requests.post(url, headers=headers, data=data)
 
 
 def read_yaml(yaml_file: str) -> str:
