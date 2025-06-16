@@ -23,6 +23,55 @@ __all__ = [
 ]
 
 
+class APIError(Exception):
+    def __init__(self,
+                 code: str,
+                 message: str,
+                 status_code: int,
+                 details: dict = dict()):
+
+        self.code = code
+        self.message = message
+        self.status_code = status_code
+        self.details = details or {}
+
+
+class AuthError(APIError):
+    def __init__(self, message: str):
+
+        super(
+            self.__class__, self
+        ).__init__(
+            code='AUTH-ERROR',
+            message=f"{self.__class__.__name__}: {message}",
+            status_code=401,
+        )
+
+
+class MissingWorkspaceError(APIError):
+    def __init__(self, message: str):
+
+        super(
+            self.__class__, self
+        ).__init__(
+            code='INPUT-MISSING',
+            message=f"{self.__class__.__name__}: {message}",
+            status_code=400,
+        )
+
+
+class MissingContextError(APIError):
+    def __init__(self, message: str):
+
+        super(
+            self.__class__, self
+        ).__init__(
+            code='CONTEXT-MISSING',
+            message=f"{self.__class__.__name__}: {message}",
+            status_code=400,
+        )
+
+
 class coreException(Exception):
     def __init__(self, message):
         if not getattr(self, 'code', None):

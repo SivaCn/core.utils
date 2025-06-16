@@ -126,6 +126,7 @@ class StateConstants(object):
     PAUSED = 'PAUSED'              # The task has been temporarily halted.
     RESUMED = 'RESUMED'            # The task has been resumed after being paused.
     COMPLETED = 'COMPLETED'        # The task has finished successfully.
+    ERROR = 'ERROR'                # The task encountered an error and couldn't complete
     FAILED = 'FAILED'              # The task encountered an error and couldn't complete.
     RETRYING = 'RETRYING'          # The task failed but is being attempted again.
     CANCELLED = 'CANCELLED'        # The task was manually cancelled before completion.
