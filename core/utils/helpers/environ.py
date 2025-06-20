@@ -50,7 +50,14 @@ def get_build_path() -> str:
 def load_config_from_dotenv():
     """Load the build's .env configurations."""
 
-    cwd = get_build_path()
+    try:
+        cwd = get_build_path()
+
+    except KeyError:
+        #
+        # When invoked for Migrations ``get_build_path()`` raises `KeyError: 'BUILD_HOME'`
+        cwd = os.getcwd()
+
     env_file_path = os.path.join(cwd, '.env')
 
     if not os.path.exists(env_file_path):
