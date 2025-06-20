@@ -41,10 +41,16 @@ __all__ = [
 ]
 
 
+def get_build_path() -> str:
+    """A utility method to get the build path.
+    """
+    return os.environ['BUILD_HOME']
+
+
 def load_config_from_dotenv():
     """Load the build's .env configurations."""
 
-    cwd = os.getcwd()
+    cwd = get_build_path()
     env_file_path = os.path.join(cwd, '.env')
 
     if not os.path.exists(env_file_path):
@@ -75,12 +81,6 @@ class ConsoleScript:
 
         self.validate_env()
         return self.func(*args, **kwargs)
-
-
-def get_build_path() -> str:
-    """A utility method to get the build path.
-    """
-    return os.environ['BUILD_HOME']
 
 
 def get_build_name() -> str:

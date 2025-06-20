@@ -35,7 +35,7 @@ from core.utils.helpers.utils import (
     json_deserialize,
 )
 
-from core.utils.constants import const_auth
+from core.utils.constants import const_secrets
 
 from core.utils.helpers.environ import get_build_path
 
@@ -134,7 +134,7 @@ class JWT:
             # "aud": "End User",
             "exp": int(
                 (
-                    datetime.now(UTC) + timedelta(minutes=const_auth.JWT_TOKEN_EXPIRE_AFTER_MINUTES)
+                    datetime.now(UTC) + timedelta(minutes=const_secrets.JWT_TOKEN_EXPIRE_AFTER_MINUTES)
                  ).timestamp()
             ),
             "iat": int(datetime.now(UTC).timestamp()),

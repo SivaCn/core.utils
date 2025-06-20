@@ -23,6 +23,7 @@ import razorpay
 
 # ----------- START: In-App Imports ---------- #
 from core.utils.constants import (
+    const_secrets,
     const_currency,
 )
 # ----------- END: In-App Imports ---------- #
@@ -36,9 +37,9 @@ class RazorPay:
 
     #
     # TODO: read these from .env file
-    RAZORPAY_KEY_ID = ""
-    RAZORPAY_KEY_SECRET = ""
-    RAZORPAY_WEBHOOK_SECRET = ""
+    RAZORPAY_KEY_ID = const_secrets.RAZORPAY_KEY_ID
+    RAZORPAY_KEY_SECRET = const_secrets.RAZORPAY_KEY_SECRET
+    RAZORPAY_WEBHOOK_SECRET = const_secrets.RAZORPAY_WEBHOOK_SECRET
 
     def __init__(self,
                  tenant: str,

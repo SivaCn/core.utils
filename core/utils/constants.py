@@ -167,7 +167,7 @@ class DateConstants(object):
 const_dates = frozen(DateConstants())
 
 
-class AuthorizationConstants(object):
+class SecretConstants(object):
 
     #
     # Authorization Related
@@ -176,8 +176,12 @@ class AuthorizationConstants(object):
     JWT_ALGORITHM = os.getenv('JWT_ALGORITHM')
     JWT_TOKEN_EXPIRE_AFTER_MINUTES = int(os.getenv('JWT_TOKEN_EXPIRE_AFTER_MINUTES') or 30)
 
+    RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
+    RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
+    RAZORPAY_WEBHOOK_SECRET = os.getenv('RAZORPAY_WEBHOOK_SECRET')
 
-const_auth = frozen(AuthorizationConstants())
+
+const_secrets = frozen(SecretConstants())
 
 
 class RegexConstants(object):
