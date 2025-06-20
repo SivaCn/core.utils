@@ -21,6 +21,7 @@ from uuid import UUID, uuid4
 from datetime import UTC, datetime, timedelta, date
 
 from types import SimpleNamespace
+from decimal import Decimal, ROUND_HALF_UP
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
@@ -415,3 +416,36 @@ def update_nested_dict(original: dict, updates: dict) -> dict:
             original[key] = value
 
     return original
+
+
+def precise_round(number, decimals=2):
+    """
+    Round a number to the specified decimal places using precise decimal arithmetic.
+
+    Args:
+        number (int/float/str): The number to round
+        decimals (int): Number of decimal places to round to (default: 2)
+
+    Returns:
+        float: The rounded number
+
+    Examples:
+        >>> precise_round(2.675)
+        2.68
+        >>> precise_round('3.14159265', 4)
+        3.1416
+        >>> precise_round(1.005, 2)
+        1.01
+    """
+    # Convert input to string first to avoid floating-point representation issues
+    decimal_places = Decimal('0.' + '0' * (decimals - 1) + '1') if decimals > 0 else Decimal('1')
+
+    # Handle string input directly, convert numbers to string to avoid float precision issues
+    if isinstance(number, str):
+        num_decimal = Decimal(number)
+    else:
+        num_decimal = Decimal(str(number))
+
+    rounded = num_decimal.quantize(decimal_places, rounding=ROUND_HALF_UP)
+    return float(rounded)
+

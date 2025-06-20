@@ -500,3 +500,12 @@ class LoggingConstants(object):
 
 const_logging = frozen(LoggingConstants())
 
+
+class CurrencyConstants(object):
+    #
+    # Logging Related
+    INR = ('INR', 'Indian Rupees', )
+
+
+const_currency = frozen(CurrencyConstants())
+
