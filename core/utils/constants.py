@@ -34,6 +34,7 @@ class GeneralConstants(object):
 
     #
     # Environments
+    SANDBOX = 'sandbox'
     DEV = 'dev'
     STAGE = 'stage'
     PROD = 'prod'

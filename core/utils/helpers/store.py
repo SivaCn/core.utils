@@ -10,8 +10,10 @@
 """
 
 # ----------- START: Native Imports ---------- #
-from abc import ABC, ABCMeta, abstractmethod
+from io import BytesIO
+
 from typing import Any, Optional
+from abc import ABC, ABCMeta, abstractmethod
 # ----------- END: Native Imports ---------- #
 
 # ----------- START: Third Party Imports ---------- #
@@ -327,10 +329,10 @@ class BucketStorageService(ABC):
 
 class GCPBucketStorageService(BucketStorageService):
 
-    def __init__(self, workspace: str):
+    def __init__(self, bucket_name: str):
 
         try:
-            if general_build_config.environment.lower() == const_general.DEV.lower():
+            if general_build_config.environment.lower() == const_general.SANDBOX.lower():
 
                 service_account_key_file_path = os.path.join(
                     get_build_path(), '../..', const_cloud.SERVICE_ACCOUNT_KEY_FILE_NAME
@@ -350,26 +352,8 @@ class GCPBucketStorageService(BucketStorageService):
         except DefaultCredentialsError:
             raise Exception("Unable to access cloud Storage")
 
-        self.bucket_name = cloud_build_config.tenant_bucket_pattern % {'workspace': workspace}
-
-        self.bucket = self.get_or_create_bucket(bucket_name=self.bucket_name)
-
-    def get_or_create_bucket(self, bucket_name: str) -> storage.Bucket:
-
-        try:
-            bucket = self.client.get_bucket(bucket_name)
-
-        except NotFound:
-            bucket = self.client.bucket(bucket_name)
-            bucket.location = cloud_build_config.tenant_bucket_region
-
-            try:
-                bucket = self.client.create_bucket(bucket)
-
-            except Conflict:
-                bucket = self.client.get_bucket(bucket_name)  # bucket created in race condition
-
-        return bucket
+        self.bucket_name = bucket_name
+        self.bucket = self.client.get_bucket(bucket_name)
 
     async def upload_file(self,
                           file,
@@ -382,11 +366,25 @@ class GCPBucketStorageService(BucketStorageService):
 
         return True
 
+    async def download_file(self, file_path: str) -> BytesIO:
 
-def get_bucket_store(workspace: str) -> BucketStorageService:
+        bucket = self.client.bucket(self.bucket_name)
+        blob = bucket.blob(file_path)
+
+        if not blob.exists():
+            raise Exception(f"File does not exist: {file_path}")
+
+        file_stream = BytesIO()
+        blob.download_to_file(file_stream)
+        file_stream.seek(0)
+
+        return file_stream
+
+
+def get_bucket_store(bucket_name: str) -> BucketStorageService:
 
     if cloud_build_config.provider == const_cloud.PROVIDER_GCP:
-        return GCPBucketStorageService(workspace=workspace)
+        return GCPBucketStorageService(bucket_name=bucket_name)
 
     else:
         raise ValueError(f"Unsupported cloud provider: {cloud_build_config.provider}")
