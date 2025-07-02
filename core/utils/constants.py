@@ -139,6 +139,10 @@ class StateConstants(object):
     DELETED = 'DELETED'            # The task has been removed from the system.
     UNKNOWN = 'UNKNOWN'            # The state of the task cannot be determined.
 
+    LOGGED_IN = 'LOGGED-IN'
+    LOGGED_OUT = 'LOGGED-OUT'
+    FORCE_LOGGED_OUT = 'FORCE-LOGGED-OUT'
+
 
 const_states = frozen(StateConstants())
 
