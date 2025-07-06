@@ -50,6 +50,43 @@ __all__ = [
 ]
 
 
+class Singleton(type):
+
+    """Implementation of Singleton design pattern.
+
+    Usage:
+        from core.utils.helpers.utils import Singleton
+
+        class TaskScheduler(metaclass=Singleton):
+            ...
+            ...
+            ...
+
+        >>> print(TaskScheduler())
+        <core.scheduler.scheduler.TaskScheduler object at 0x7f2babac2128>
+        >>> print(TaskScheduler())
+        <core.scheduler.scheduler.TaskScheduler object at 0x7f2babac2128>
+        >>> print(TaskScheduler())
+        <core.scheduler.scheduler.TaskScheduler object at 0x7f2babac2128>
+        >>> print(TaskScheduler())
+        <core.scheduler.scheduler.TaskScheduler object at 0x7f2babac2128>
+
+    """
+
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+
+        """A control unit of Singleton pattern."""
+
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        else:
+            cls._instances[cls].__init__(*args, **kwargs)
+
+        return cls._instances[cls]
+
+
 class Http:
     def post(self, url: str, headers: dict, data: dict):
         return requests.post(url, headers=headers, data=data)

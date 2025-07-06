@@ -76,13 +76,26 @@ def today_end_of_day() -> datetime:
     return datetime.now(UTC).replace(hour=23, minute=59, second=59, microsecond=0).replace(tzinfo=None)
 
 
-def datetime_add_offset(datetime_obj: datetime, days: int=0) -> datetime:
+def datetime_add_offset(datetime_obj: datetime,
+                        days: int = 0,
+                        hours: int = 0,
+                        minutes: int = 0,
+                        seconds: int = 0) -> datetime:
     """Adds offset to the given datetime object."""
 
     adjusted_datetime = datetime_obj
 
     if days != 0:
         adjusted_datetime = datetime_obj + timedelta(days=days)
+
+    if hours != 0:
+        adjusted_datetime = datetime_obj + timedelta(hours=hours)
+
+    if minutes != 0:
+        adjusted_datetime = datetime_obj + timedelta(minutes=minutes)
+
+    if seconds != 0:
+        adjusted_datetime = datetime_obj + timedelta(seconds=seconds)
 
     return adjusted_datetime
 

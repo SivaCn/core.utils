@@ -246,6 +246,11 @@ class RegexConstants(object):
         this_name_is_way_too_long_for_most_database_engines_and_will_be_rejected (>64 chars)
     '''
 
+    #
+    # Matches the pattern 'YYYY-MM-DDTHH:MM:SS'
+    # Example string: '2023-05-23T12:00:36'
+    DATETIME_PATTERN = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+
 
 const_regex = frozen(RegexConstants())
 
@@ -517,4 +522,52 @@ class CurrencyConstants(object):
 
 
 const_currency = frozen(CurrencyConstants())
+
+
+class ConsumerConstants(object):
+    #
+    # Consumer Related
+    PACKAGE_NAME = 'core.consumers'
+    YELLOW_EXCHAMGE = 'yellow-exchange'
+    YELLOW_EXCHAMGE_TYPE = 'direct'
+
+    PIKA_SOCKET_CONNECTION_TIMEOUT = 5
+    RECONNECT_TIME_SECS = 10
+    RECONNECT_ATTEMPT = 5
+    RPC_DEFAULT_TIMEOUT_SECS = 20
+
+    # Check for the response for process data events after (in seconds)
+    DATA_EVENTS_TIME_LIMIT = 3
+
+
+const_consumer = frozen(ConsumerConstants())
+
+
+class SchedulerConstants(object):
+    #
+    # Scheduler Related
+    SCHEDULER_COALESCE = False
+    SCHEDULER_MAX_INSTANCES = 3
+    SCHEDULER_THREAD_POOL_EXECUTOR_COUNT = 20
+    SCHEDULER_PROCESS_POOL_EXECUTOR_COUNT = 5
+    SCHEDULER_MISFIRE_GRACE_TIME_IN_SECS = 60
+    SCHEDULER_DEFAULT_SCHEDULE_DELAY_BY_SECS = 10
+
+    SCHEDULER_QUEUE_NAME = 'scheduler-queue'
+    SCHEDULER_QUEUE_DURABLE = True
+
+    SCHEDULER_TABLE_NAME = 'scheduler_job'
+    SCHEDULER_LOG_TABLE_NAME = 'scheduler_job_log'
+
+    #
+    # Scheduler Job Status
+    STAGED = 'STAGED'
+    ADDED = 'ADDED'
+    EXECUTED = 'EXECUTED'
+    ERROR = 'ERROR'
+    MISSED = 'MISSED'
+    REMOVED = 'REMOVED'
+
+
+const_scheduler = frozen(SchedulerConstants())
 
