@@ -546,6 +546,35 @@ const_consumer = frozen(ConsumerConstants())
 class SchedulerConstants(object):
     #
     # Scheduler Related
+
+    #
+    # Job Action
+    ADD = 'add'
+    UPDATE = 'update'
+    REMOVE = 'remove'
+
+    SCHEDULE_ACTION = [ADD, UPDATE, REMOVE]
+
+    #
+    # Schedule Type
+    ONETIME = 'onetime'
+    MINUTES = 'minutes'
+    HOURLY = 'hourly'
+    DAILY = 'daily'
+    WEEKLY = 'weekly'
+    MONTHLY = 'monthly'
+
+    SCHEDULE_TYPES = [
+        ONETIME,
+        MINUTES,
+        HOURLY,
+        DAILY,
+        WEEKLY,
+        MONTHLY,
+    ]
+
+    MISFIRE_GRACE_TIME = 180
+
     SCHEDULER_COALESCE = False
     SCHEDULER_MAX_INSTANCES = 3
     SCHEDULER_THREAD_POOL_EXECUTOR_COUNT = 20
@@ -563,6 +592,7 @@ class SchedulerConstants(object):
     # Scheduler Job Status
     STAGED = 'STAGED'
     ADDED = 'ADDED'
+    UPDATED = 'UPDATED'
     EXECUTED = 'EXECUTED'
     ERROR = 'ERROR'
     MISSED = 'MISSED'
