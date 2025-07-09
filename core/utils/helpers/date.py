@@ -17,6 +17,7 @@
 # ----------- START: Third Party Imports ---------- #
 import pendulum
 
+from dateutil.relativedelta import relativedelta
 from datetime import date, datetime, timedelta, UTC
 # ----------- END: Third Party Imports ---------- #
 
@@ -77,6 +78,8 @@ def today_end_of_day() -> datetime:
 
 
 def datetime_add_offset(datetime_obj: datetime,
+                        years: int = 0,
+                        months: int = 0,
                         days: int = 0,
                         hours: int = 0,
                         minutes: int = 0,
@@ -84,6 +87,12 @@ def datetime_add_offset(datetime_obj: datetime,
     """Adds offset to the given datetime object."""
 
     adjusted_datetime = datetime_obj
+
+    if years != 0:
+        adjusted_datetime = datetime_obj + relativedelta(years=years)
+
+    if months != 0:
+        adjusted_datetime = datetime_obj + relativedelta(months=months)
 
     if days != 0:
         adjusted_datetime = datetime_obj + timedelta(days=days)
