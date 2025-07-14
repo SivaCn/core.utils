@@ -237,3 +237,9 @@ def day_end(date: date | datetime) -> datetime:
         pendulum.parse(isoformat(date), tz=None).end_of('day')
     )
 
+
+def get_age(dob: date | datetime):
+    """An utility to calculate Age based on the date of birth."""
+
+    return relativedelta(utc_now(), dob).years
+
