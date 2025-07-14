@@ -20,6 +20,8 @@ from abc import ABC, ABCMeta, abstractmethod
 import redis
 
 import simplejson as json
+
+from pandas import read_csv, DataFrame
 # ----------- END: Third Party Imports ---------- #
 
 # ----------- START: In-App Imports ---------- #
@@ -322,7 +324,7 @@ class BucketStorageService(ABC):
     async def upload_file(self,
                           file: UploadFile,
                           destination_path: str,
-                          content_type: Optional[str] = None) -> bool:
+                          content_type: str) -> bool:
         """Upload a file to cloud storage"""
         pass
 
@@ -380,6 +382,17 @@ class GCPBucketStorageService(BucketStorageService):
 
         return file_stream
 
+    async def download_as_dataframe(self, file_path: str) -> DataFrame:
+
+        bucket = self.client.bucket(self.bucket_name)
+        blob = bucket.blob(file_path)
+
+        if not blob.exists():
+            raise Exception(f"File does not exist: {file_path}")
+
+        data = blob.download_as_bytes()
+
+        return read_csv(BytesIO(data))
 
 def get_bucket_store(bucket_name: str) -> BucketStorageService:
 

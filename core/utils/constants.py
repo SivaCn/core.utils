@@ -492,14 +492,30 @@ const_cloud = frozen(CloudConstants())
 class FileConstants(object):
     #
     # File related constants
+    USER = 'USER'
+    TENANT = 'TENANT'
+
+    PDF = 'application/pdf'
+    CSV = 'text/csv'
+    PNG = 'image/png'
+    JPG = 'image/jpeg'
+    JPEG = 'image/jpeg'
+
+    IMAGE_EXTN = [PNG, JPG, JPEG, ]
+
+    CONTENT_TYPE_DATA = [CSV, ]
+    CONTENT_TYPE_PHOTO = IMAGE_EXTN[:]
+    CONTENT_TYPE_DOCUMENT = [PDF, ] + IMAGE_EXTN[:]
+
+    DATA = 'DATA'
     PHOTO = 'PHOTO'
-    VIDEO = 'VIDEO'
     DOCUMENT = 'DOCUMENT'
 
     THUMBNAIL_SQUARE_SIZE = (128, 128)
     THUMBNAIL_A4_SIZE = (595, 842)  # A4 at 72dpi, Texts can be best viewed
 
     PHOTO_FILE_MAX_SIZE = 1024 * 1024 * 2  # 2MB
+    DATA_FILE_MAX_SIZE = 1024 * 1024 * 10  # 10MB
     DOCUMENT_FILE_MAX_SIZE = 1024 * 1024 * 10  # 10MB
 
 
