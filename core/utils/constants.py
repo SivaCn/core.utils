@@ -285,8 +285,8 @@ class BusinessConstants(object):
 
     #
     # Plan Features
-    WILL_DOWNLOAD = 'WILL-DOWNLOAD'
-    WILL_PRINT_AND_SHIP = 'WILL-PRINT-AND-SHIP'
+    WILL_DOWNLOAD = 'WILL_DOWNLOAD'
+    WILL_PRINT_AND_SHIP = 'WILL_PRINT_AND_SHIP'
 
     #
     # Tariff Related
@@ -343,10 +343,10 @@ class BusinessConstants(object):
 
     #
     # Will Progress Stages
-    NOT_INITIATED = 'NOT-INITIATED'
-    MY_PEOPLE = 'MY-PEOPLE'
-    MY_ASSETS = 'MY-ASSETS'
-    ASSET_DISTRIBUTION = 'ASSET-DISTRIBUTION'
+    NOT_INITIATED = 'NOT_INITIATED'
+    MY_PEOPLE = 'MY_PEOPLE'
+    MY_ASSETS = 'MY_ASSETS'
+    ASSET_DISTRIBUTION = 'ASSET_DISTRIBUTION'
     COMPLETED = 'COMPLETED'
 
     WILL_PROGRESS_ORDER = [
@@ -420,8 +420,8 @@ class BusinessConstants(object):
     # ID Proofs
     PAN = 'PAN'
     PASSPORT = 'PASSPORT'
-    DRIVING_LICENSE = 'DRIVING-LICENCE'
-    VOTER_ID = 'VOTER-ID'
+    DRIVING_LICENSE = 'DRIVING_LICENCE'
+    VOTER_ID = 'VOTER_ID'
 
 
 const_business = frozen(BusinessConstants())
