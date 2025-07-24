@@ -251,10 +251,6 @@ class RegexConstants(object):
     # Example string: '2023-05-23T12:00:36'
     DATETIME_PATTERN = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
 
-    TEST_OTP = "101010"
-
-    DEV_TEST_PHONES = ["+91-0010203040", "+91-0011213141"]
-
 
 const_regex = frozen(RegexConstants())
 
@@ -426,6 +422,11 @@ class BusinessConstants(object):
     PASSPORT = 'PASSPORT'
     DRIVING_LICENSE = 'DRIVING_LICENCE'
     VOTER_ID = 'VOTER_ID'
+
+    #
+    # Test constants
+    TEST_OTP = "101010"
+    DEV_TEST_PHONES = ["+91-0010203040", "+91-0011213141"]
 
 
 const_business = frozen(BusinessConstants())
