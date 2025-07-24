@@ -423,6 +423,11 @@ class BusinessConstants(object):
     DRIVING_LICENSE = 'DRIVING_LICENCE'
     VOTER_ID = 'VOTER_ID'
 
+    #
+    # Test constants
+    TEST_OTP = "101010"
+    DEV_TEST_PHONES = ["+91-0010203040", "+91-0011213141"]
+
 
 const_business = frozen(BusinessConstants())
 
