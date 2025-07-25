@@ -486,3 +486,21 @@ def precise_round(number, decimals=2):
     rounded = num_decimal.quantize(decimal_places, rounding=ROUND_HALF_UP)
     return float(rounded)
 
+
+def flatten_nested_list(data: list) -> list:
+    """An utility to flattern any level of nested list into linear list.
+
+    Usage:
+        >>> nested_list = [['SUPER-ADMIN'], [['CONTENT', ['EDITOR']], 'MODERATOR']]
+        >>> flatten_nested_list(nested_list)
+        ['SUPER-ADMIN', 'CONTENT', 'EDITOR', 'MODERATOR']
+    """
+
+    flattened = []
+    for item in data:
+        if isinstance(item, list):
+            flattened.extend(flatten_nested_list(item))
+        else:
+            flattened.append(item)
+    return flattened
+
